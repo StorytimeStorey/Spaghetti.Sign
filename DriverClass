@@ -1,3 +1,5 @@
+import random
+
 class Driver:
     def __init__(self, ID, schedule):
         self.ID = ID
@@ -11,3 +13,14 @@ class Driver:
         # Otherwise, add the message to the data with a count of 1
         else:
             self.data[message] = 1
+
+def generate_drivers(num_drivers):
+    drivers = []
+    for i in range(num_drivers):
+        schedule = generate_schedule()
+        driver = Driver(i, schedule)
+        drivers.append(driver)
+    return drivers
+
+def generate_schedule():
+    return random.choices(range(7), k=random.randint(1, 5))
