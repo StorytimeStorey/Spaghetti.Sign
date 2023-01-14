@@ -4,6 +4,8 @@
 # 
 class sign_node:
     def __init__(self, image):
+        '''
+        '''
         self.image = image
         self.next = None
 
@@ -16,9 +18,18 @@ class sign_node:
 class cycle_sign:
 
     # create the head of the list and current image, both default as None
-    def __init__(self):
+    def __init__(self, viewing_time: int, run_time: int, is_running = False):
+        '''
+        inputs:
+        viewing_time - determines how many simulated seconds an image stays on the sign
+        run_time - determines how many weeks to cycle for
+        is_running - determines if the sign is cycling or not, True means it is, False it is not. Default to False.
+        '''
         self.head = None
         self.current_image = None
+        self.viewing_time = viewing_time
+        self.run_time = run_time
+        self.is_running = is_running
 
     def __repr__(self):
         '''
@@ -53,38 +64,34 @@ class cycle_sign:
             new_node.next = self.head
             current.next = new_node
 
-    def cycle_image(self, viewing_time: int, run_time: int, is_running = False):
+    def cycle_image(self):
         '''
-        Cycles through the images, leaving each image as current_image for [viewing time]
-        Inputs: 
-        viewing_time - determines how many simulated seconds an image stays on the sign
-        run_time - determines how many weeks to cycle for
-        is_running - determines if the sign is cycling or not, True means it is, False it is not. Default to False. 
+        Cycles through the images, leaving each image as current_image for [viewing time] 
         '''
         self.current_image = self.head
         # tracks number of weeks passed during the current runtime
         self.num_weeks = 0
         # loop through linked list, pausing for the inputted viewing time on each node. 
-        while is_running:
+        while self.is_running:
             for second in range (604000):
                 # move to the next image every [viewing_time] increments
                 print(self.current_image)
-                if second%viewing_time == 0:
+                if second%self.viewing_time == 0:
                     self.current_image = self.current_image.next
             self.num_weeks += 1
             # stop cycling once desired run_time is reached
-            if self.num_weeks == run_time:
-                is_running = False
+            if self.num_weeks == self.run_time:
+                self.is_running = False
 
 
-testing_sign = cycle_sign()
+testing_sign = cycle_sign(5, 1, True)
 tracker = 0 
 for thing in range(20):
     tracker += 1
     thing = sign_node(str(tracker))
     testing_sign.append(thing)
     print(thing)
-testing_sign.cycle_image(5, 1, True)
+testing_sign.cycle_image()
 print(testing_sign)
 
 
