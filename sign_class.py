@@ -17,6 +17,7 @@ class sign_node:
 
 class cycle_sign:
 
+    # create the head of the list and current image, both default as None
     def __init__(self):
         self.head = None
         self.current_image = None
@@ -35,11 +36,19 @@ class cycle_sign:
 
     # append function for linked list
     def append(self, image):
+        '''
+        append method for linked list, adds the input image to the end of the linked list, making the 
+        image.next value self.head
+        '''
+        # if there is not a head, make the input image the head
         if not self.head:
             self.head = sign_node(image)
             self.head.next = self.head
+        # if there is already a head, add the input image to the end of the linked list
         else:
             current = self.head
+            # cycles to the end of the linked list, makes the input image the .next of the current last node and 
+            #makes the input image.next the head
             while current.next != self.head:
                 current = current.next
             new_node = sign_node(image)
@@ -47,10 +56,12 @@ class cycle_sign:
             current.next = new_node
 
     def cycle_image(self, viewing_time):
+        '''
+        
+        '''
         self.current_image = self.head
         # loop through linked list, pausing for the inputted viewing time on each node. 
         while self.current_image:
-            print(self.current_image.data)
             time.sleep(viewing_time)
             self.current_image = self.current_image.next
             if self.current_image == self.head:
