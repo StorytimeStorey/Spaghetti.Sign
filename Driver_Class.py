@@ -123,8 +123,7 @@ class Driver:
             chosen_hour = random.choices(list(days_prob[chosen_day].keys()),list(days_prob[chosen_day].values()))[0]
             self.schedule[chosen_day] = chosen_hour
         elif any(self.actual_days()) and len(self.actual_days()) > 1:
-            for day in self.schedule.keys():
-                self.schedule[day] = self.class_time_repeating()
+            self.class_time_repeating()
         else:
             return None
 
