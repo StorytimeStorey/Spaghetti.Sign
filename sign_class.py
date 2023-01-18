@@ -16,8 +16,7 @@ class sign_node:
         return str(self.image)
 
 class cycle_sign:
-
-    # create the head of the list and current image, both default as None
+ 
     def __init__(self, viewing_time: int, run_time: int, is_running = False):
         '''
         inputs:
@@ -25,6 +24,7 @@ class cycle_sign:
         run_time - determines how many weeks to cycle for
         is_running - determines if the sign is cycling or not, True means it is, False it is not. Default to False.
         '''
+        # create the head of the list and current image, both default as None.
         self.head = None
         self.current_image = None
         self.viewing_time = viewing_time
