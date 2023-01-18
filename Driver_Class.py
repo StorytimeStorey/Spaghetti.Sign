@@ -101,7 +101,7 @@ class Driver:
                     self.schedule["Thursday"] = hour_arriving
                     
             for day in self.schedule.keys():
-                if self.schedule[day] is None:
+                if self.schedule[day] is 1:
                     hour_arriving = random.choices(list(daily_prob.keys()),list(daily_prob.values()))[0]
                     print("hour arriving is" ,  hour_arriving)
                     self.schedule[f"{day}"] = hour_arriving
