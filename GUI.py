@@ -55,7 +55,6 @@ vehicle_attendance_label.place(relx=0.055, rely=0.22, anchor='nw')
 vehicle_attendance_slider = ttk.Scale(page1, from_=1, to=5, orient='horizontal')
 vehicle_attendance_slider.place(relx=0.36, rely=0.22, anchor='nw')
 
-
 #Sign header Label.
 sign_header = ttk.Label(page1, text='Sign Info:', font=("Arial", 20))
 sign_header.place(relx=0.05, rely=0.3, anchor='nw')
@@ -87,16 +86,41 @@ slide_arrange_button_S.place(relx=0.3, rely=0.47, anchor='nw')
 slide_arrange_button_R = ttk.Button(page1, text='Random', width=10)
 slide_arrange_button_R.place(relx=0.4, rely=0.47, anchor='nw')
 
-
-
 # Page 2's labels.
 test_label = ttk.Label(page2, text='Results:', font=("Times New Roman", 18))
 test_label.pack()
+
+# bar graph class 
+class bar_graph:
+
+    def __init__(self, x_axis_label: str, y_axis_label: str, bars: dict, chart_title: str):
+        '''
+        Inputs: 
+        x_axis_label - label of the x-axis
+        y_axis_label - label of the y-axis
+        chart_title - title of the bar graph
+        bars - dictionary in format x-value: y-value
+        '''
+        self.x_axis_label = x_axis_label
+        self.y_axis_label = y_axis_label
+        self.chart_title = chart_title
+        self.bars = bars
+
+    def bars(self, bars):
+        for x_value, y_value in bars.items():
+            
+
+# num signs seen vs days of attendance graph
+
+# student average num signs seen per week
+
+# total signs seen vs day of the week graph (y-axis: #signs seen by all student, x-axis: day of the week)
 
 
 
 # Credit label.
 credits_label = ttk.Label(window, text='Made by Story, Jack, & Maverick', font=("Arial",10))
 credits_label.place(relx=0, rely=.97, anchor='nw')
+
 
 window.mainloop()
