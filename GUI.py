@@ -34,6 +34,7 @@ notebook.add(page2, text="Results")
 
 
 # Page 1's labels. All of them.
+# Title label.
 title_label = ttk.Label(page1, text='SPAGHETTI SIGN PROJECT', font=("Times New Roman", 18))
 title_label.pack()
 
@@ -87,12 +88,13 @@ slide_arrange_button_S.place(relx=0.3, rely=0.47, anchor='nw')
 slide_arrange_button_R = ttk.Button(page1, text='Random', width=10)
 slide_arrange_button_R.place(relx=0.4, rely=0.47, anchor='nw')
 
+computer_button = ttk.Button(page1, text='COMPUTE', width=10)
+computer_button.place(relx=0.5, rely=0.6, anchor='n')
 
 
 # Page 2's labels.
 test_label = ttk.Label(page2, text='Results:', font=("Times New Roman", 18))
 test_label.pack()
-
 
 
 # Credit label.
