@@ -129,5 +129,5 @@ class Driver:
 
 drivers = [Driver(f'Driver {i}', Attendance_average) for i in range(100)]
 
-for driver in drivers:
-    print(driver.schedule)
+# for driver in drivers:
+#     print(driver.schedule)

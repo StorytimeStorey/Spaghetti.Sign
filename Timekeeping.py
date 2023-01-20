@@ -15,5 +15,3 @@ def current_hour(current_second):
 
 
 
-
-
