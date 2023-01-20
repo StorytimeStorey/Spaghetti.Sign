@@ -16,7 +16,7 @@ class Driver:
         self.attendance_average = Attendance_average
         self.days_attending = self.days_attended()
         self.hour_arrived = self.choose_hour()
-
+        self.days_attending_total = sum(self.days_attending)
         self.speed = {}
         self.speed["drive_speed"] = random.randint(speedmin, speedmax)
         self.speed["drive_speed_var"] = random.randint(varmin, varmax)
