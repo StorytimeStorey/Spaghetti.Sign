@@ -76,13 +76,24 @@ vehicle_attendance_label.place(relx=0.055,
                                rely=0.22, 
                                anchor='nw')
 
-vehicle_attendance_slider = ttk.Scale(page1, 
+# vehicle_attendance_slider_value = tk.IntVar()
+vehicle_attendance_variable = tk.IntVar()
+vehicle_attendance_slider = tk.Scale(page1, 
                                       from_=1, 
                                       to=5, 
-                                      orient='horizontal')
+                                      orient='horizontal',
+                                      variable=vehicle_attendance_variable,
+                                      width=15,
+                                      sliderlength=20)
 vehicle_attendance_slider.place(relx=0.36, 
                                 rely=0.22, 
                                 anchor='nw')
+# vehicle_attendance_numbers = ttk.Label(page1,
+#                                        textvariable=vehicle_attendance_variable,
+#                                        text='jjjjjj')
+# vehicle_attendance_numbers.place(relx=0.36,
+#                                  rely=.25,
+#                                  anchor='nw')
 
 #Sign header Label.
 sign_header = ttk.Label(page1, 
@@ -130,8 +141,8 @@ slide_speed_seconds_label = ttk.Label(page1,
                                       text='seconds', 
                                       font=("Arial", 
                                       14))
-slide_speed_seconds_label.place(relx=0.4, 
-                                rely=0.42, 
+slide_speed_seconds_label.place(relx=0.385, 
+                                rely=0.426, 
                                 anchor='nw')
 
 #Slide Arrange Label & Buttons.
@@ -152,7 +163,7 @@ slide_arrange_button_S.place(relx=0.3,
 slide_arrange_button_R = ttk.Button(page1, 
                                     text='Random', 
                                     width=10)
-slide_arrange_button_R.place(relx=0.4, 
+slide_arrange_button_R.place(relx=0.474, 
                              rely=0.47, 
                              anchor='nw')
 
@@ -217,5 +228,5 @@ test_graph = bar_graph(data_to_graph=testing_data, chart_title='Testing chart')
 credits_label = ttk.Label(window, text='Made by Story, Jack, & Maverick', font=("Arial",10))
 credits_label.place(relx=0, rely=.97, anchor='nw')
 
-
+window.resizable(width=False, height=False)
 window.mainloop()
