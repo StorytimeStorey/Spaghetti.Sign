@@ -15,7 +15,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-
 # GUI setup info
 window = tk.Tk()
 window.title('Spaghetti Sign')
