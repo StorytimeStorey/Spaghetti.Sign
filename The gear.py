@@ -5,7 +5,6 @@
 # To do list:
 #
 # Small issues:
-# Make readable driver creation/initializing system.
 # Make sure driver times and info combine with timekeeping system.
 # Have system that reports driver-to-sign info.
 # 
@@ -28,7 +27,7 @@ import Timekeeping as TimeK
 simulated_weeks = 2
 simulated_drivers = 20
 simulated_slide_numbers = 15
-simulated_slide_speed = 5
+simulated_slide_speed = 10
 simluated_slide_order = "slideshow"
 drivers = 0
 tracker = 0
@@ -43,9 +42,6 @@ while TimeK.current_second <= total_time:
 # The function that makes all da rules. This will take all input fields from the GUI and send that data to the
 # Driver Class, the Sign Class, and the Timekeeping system.
 def run_simulation(simulated_weeks, simulated_drivers, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order):
-    # Setup for the Timekeeping module.
-    TimeK.seconds_in_week = 604800 * simulated_weeks
-    TimeK.current_second = 0
 
     # System to create drivers.
     for i in simulated_drivers:
@@ -58,6 +54,15 @@ def run_simulation(simulated_weeks, simulated_drivers, simulated_slide_numbers, 
         tracker += 1
         thing = SC.sign_node(str(tracker))
         sign_setup.append(thing)
+    sign_setup.cycle_image()
+
+    # Setup for the Timekeeping module.
+    TimeK.seconds_in_week = 604800 * simulated_weeks
+    TimeK.current_second = 0
+    while TimeK.current_second <= total_time:
+        TimeK.current_second = TimeK.current_second + 1
+    
+
 
 
 
