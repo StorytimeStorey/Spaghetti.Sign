@@ -88,12 +88,7 @@ vehicle_attendance_slider = tk.Scale(page1,
 vehicle_attendance_slider.place(relx=0.36, 
                                 rely=0.22, 
                                 anchor='nw')
-# vehicle_attendance_numbers = ttk.Label(page1,
-#                                        textvariable=vehicle_attendance_variable,
-#                                        text='jjjjjj')
-# vehicle_attendance_numbers.place(relx=0.36,
-#                                  rely=.25,
-#                                  anchor='nw')
+
 
 #Sign header Label.
 sign_header = ttk.Label(page1, 
@@ -153,16 +148,31 @@ slide_arrange_label.place(relx=0.055,
                           rely=0.47, 
                           anchor='nw')
 
+# change the buttons slideshow and random colors to show which is selected
+
+
+def button_selected(function):
+    if function is slide_arrange_button_S:
+        print('trying to change slideshow')
+        slide_arrange_button_S.configure(style='red.TButton')
+        slide_arrange_button_R.configure(style='default.TButton')
+    elif function is slide_arrange_button_R:
+        print('trying to change random')
+        slide_arrange_button_R.configure(style='red.TButton')
+        slide_arrange_button_S.configure(style='default.TButton')
+
 slide_arrange_button_S = ttk.Button(page1, 
                                     text='Slideshow', 
-                                    width=10)
+                                    width=10,
+                                    command=lambda: button_selected(slide_arrange_button_S))
 slide_arrange_button_S.place(relx=0.3, 
                              rely=0.47, 
                              anchor='nw')
-
+# button_selected(slide_arrange_button_S)
 slide_arrange_button_R = ttk.Button(page1, 
                                     text='Random', 
-                                    width=10)
+                                    width=10,
+                                    command=lambda: button_selected(slide_arrange_button_R))
 slide_arrange_button_R.place(relx=0.474, 
                              rely=0.47, 
                              anchor='nw')
