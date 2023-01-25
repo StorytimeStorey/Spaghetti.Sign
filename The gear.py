@@ -25,7 +25,7 @@ import Timekeeping as TimeK
 # Placeholder values for the input fields from the GUI.
 # simulated_weeks is a multiplier for the simulated_seconds, 2 = 2 weeks while something like 1.42 = 1 week, 3 days.
 simulated_weeks = 2
-simulated_drivers = 20
+simulated_drivers_number = 20
 simulated_slide_numbers = 15
 simulated_slide_speed = 10
 simluated_slide_order = "slideshow"
@@ -41,12 +41,11 @@ while TimeK.current_second <= total_time:
 
 # The function that makes all da rules. This will take all input fields from the GUI and send that data to the
 # Driver Class, the Sign Class, and the Timekeeping system.
-def run_simulation(simulated_weeks, simulated_drivers, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order):
+def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order):
 
     # System to create drivers.
-    for i in simulated_drivers:
-        drivers = Driver(f'Driver {i}', Attendance_average=2.6, speedmin=10, speedmax=20, varmin=1, varmax=5)
-
+    drivers = [Driver(f'Driver {i}', Attendance_average=2.6, speedmin=10, speedmax=20, varmin=1, varmax=5) for i in range(simulated_drivers_number)]
+    
     # System to setup sign and the cycle_sign method.
     sign_setup = SC.cycle_sign(simulated_slide_speed, simulated_weeks, True)
     tracker = 0
@@ -66,3 +65,5 @@ def run_simulation(simulated_weeks, simulated_drivers, simulated_slide_numbers, 
 
 
 
+# list comprehension
+# list initializing
