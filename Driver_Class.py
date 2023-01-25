@@ -150,7 +150,7 @@ class Driver:
     def generate_drive_speed(self):
         '''
         Is to be called when enqueued in the linked list
-        Will take the attributes for speed and standard deviation to randomly generate a speed 
+        Will take the attributes for speed and standard deviation to randomly generate a speed
         each time the driver is enqueued.
         '''
         todays_speed = self.speed["drive_speed"] + random.randint(-self.speed["drive_speed_var"], self.speed["drive_speed_var"])

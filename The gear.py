@@ -2,11 +2,14 @@
 # Last edited by Maverick on 1-19-23
 # The Gear takes the Timekeeping, Driver system, and Sign system and combines them.
 
+# Ideas: Put GUI into class.
+# 
+
 # To do list:
 #
 # Small issues:
 # Make sure driver times and info combine with timekeeping system.
-# Have system that reports driver-to-sign info.
+# Have system that reports driver-to-sign info. 
 # 
 # Large issues:
 # Have fully created GUI interface with The Gear.
@@ -61,6 +64,22 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
     while TimeK.current_second <= total_time:
         TimeK.current_second = TimeK.current_second + 1
     
+    # Checks if the_hour is the same number as TimeK's current_hour. If not, take the driver
+    the_hour = 0
+    if TimeK.current_hour != the_hour:
+        the_hour = TimeK.current_hour
+
+
+    # Simulation needs:
+    # Have signs cycling in proportion to Timekeeping.
+    # Have drivers queued up after each hour.
+    # Have driver_speed generate /seperately/ from each driver, then used on driver.
+    # Create holder for signs each student has observed.
+    #       -Should the holder be a list or a dictionary?
+    # Re:Small issues: Have system that reports driver-to-sign info.
+
+    # Set up driver queue on a per day basis.
+        # Check and start portion of the queue 
 
 
 
