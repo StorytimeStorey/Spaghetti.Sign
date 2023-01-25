@@ -1,14 +1,20 @@
+# Driver class.
+# Created by Story.
+# Driver class creates a driver instance that generates a schedule.
+# This schedule will be looked at by The Gear in order to be queued in order for the simulation.
 import random
 
 Day_List = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
+# Average days a student attends, according to data from Matthew Connot. Used to generate
+# how many days a student will be on the schedule.
 Attendance_average = 2.6
 
+# Variables used for the generating_drive_speed function, which...generates the driver's speed.
 speedmin = 10 
 speedmax = 20 
 varmin = 1 
 varmax = 5
-
 
 class Driver:
     def __init__(self, ID, Attendance_average, speedmin, speedmax, varmin, varmax):
@@ -23,6 +29,8 @@ class Driver:
 
         self.data = {}   
 
+    # update_data function will be used to store what signs each instance of the driver class has seen.
+    # this information will later be extracted by the GUI to use in graphs and the "results" page.
     def update_data(self, message):
         """
         This function updates the data dictionary.
@@ -146,7 +154,6 @@ class Driver:
         else:
             return None
 
-
     def generate_drive_speed(self):
         '''
         Is to be called when enqueued in the linked list
@@ -156,5 +163,5 @@ class Driver:
         todays_speed = self.speed["drive_speed"] + random.randint(-self.speed["drive_speed_var"], self.speed["drive_speed_var"])
         return todays_speed
 
-
+# Test code for creating drivers.
 drivers = [Driver(f'Driver {i}', Attendance_average,speedmin, speedmax, varmin, varmax) for i in range(2000)]

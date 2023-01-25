@@ -84,6 +84,7 @@ class cycle_sign:
                 self.is_running = False
 
 
+# Test code for making sure sign creation and cycling is functioning.
 testing_sign = cycle_sign(5, 1, True)
 tracker = 0 
 for thing in range(20):
