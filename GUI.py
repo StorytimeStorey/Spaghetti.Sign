@@ -158,16 +158,15 @@ computer_button.place(relx=0.5, rely=0.6, anchor='n')
 def button_selected(function):
     if function is slide_arrange_button_S:
         print('trying to change slideshow')
-        slide_arrange_button_S.configure('TButton', background='red')
-        slide_arrange_button_R.configure(style='default.TButton')
+        slide_arrange_button_S.config(highlightbackground='white')
+        slide_arrange_button_R.config(highlightbackground='gray')
     elif function is slide_arrange_button_R:
         print('trying to change random')
-        slide_arrange_button_R.configure(style='red.TButton')
-        slide_arrange_button_S.configure(style='default.TButton')
+        slide_arrange_button_R.config(highlightbackground='white')
+        slide_arrange_button_S.config(highlightbackground='gray')
 
 slide_arrange_button_S = tk.Button(page1, 
-                                    text='Slideshow', 
-                                    background='gray',
+                                    text='Slideshow',
                                     width=10,
                                     command=lambda: button_selected(slide_arrange_button_S))
 slide_arrange_button_S.place(relx=0.3, 
@@ -175,8 +174,7 @@ slide_arrange_button_S.place(relx=0.3,
                              anchor='nw')
 # button_selected(slide_arrange_button_S)
 slide_arrange_button_R = tk.Button(page1, 
-                                    text='Random',
-                                    background='gray', 
+                                    text='Random', 
                                     width=10,
                                     command=lambda: button_selected(slide_arrange_button_R))
 slide_arrange_button_R.place(relx=0.474, 
