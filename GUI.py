@@ -1,8 +1,8 @@
 # GUI System
-# Last edited 1-14-23 by Maverick
+# Last edited 1-26-23 by Jackson & Maverick
+# The GUI Lagoon
 
 # Current Issues/To Dos:
-# Have Sliders display currently selected value.
 # Make sure GUI it works with everything else.
 # Add button to take all the things and do all the math mumbo jumbo.
 # Make the slide arrangement button selected easier to look at.
