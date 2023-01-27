@@ -11,16 +11,28 @@
 
 import tkinter as tk
 from tkinter import ttk
+import playsound
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 # GUI setup info
-window = tk.Tk()
-window.title('Spaghetti Sign')
-window_width = 800
-window_height = 700
-window.geometry(f'{window_width}x{window_height}')
+class main_window:
+    def __init__(self, song):
+        self.file_path = song
+        self.window = tk.Tk()
+        self.window.title('Spaghetti Sign')
+        self.window_width = 800
+        self.window_height = 700
+        window.geometry(f'{window_width}x{window_height}')
+        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.window.after(0, self.play_audio)
+        self.window.mainloop()
+# window = tk.Tk()
+# window.title('Spaghetti Sign')
+# window_width = 800
+# window_height = 700
+# window.geometry(f'{window_width}x{window_height}')
 
 # TTK Notebook setup info
 notebook = ttk.Notebook(window)
@@ -190,6 +202,10 @@ slide_arrange_button_R.place(relx=0.474,
 #                        18))
 # test_label.pack()
 
+# function to play a song when the window opens
+def play_song(file_path):
+    playsound.playsound(file_path)
+
 # bar graph class 
 class bar_graph:
 
@@ -244,4 +260,11 @@ credits_label = ttk.Label(window, text='Made by Story, Jack, & Maverick', font=(
 credits_label.place(relx=0, rely=.97, anchor='nw')
 
 window.resizable(width=False, height=False)
+
+def on_closing():
+    window.destroy()
+
+
+play_song("I'm a Lady.flac")
+window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
