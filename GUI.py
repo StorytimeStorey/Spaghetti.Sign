@@ -18,14 +18,14 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class main_window:
-    def __init__(self, song):
+    def __init__(self, song_list):
         '''
         Initial main window method
         Inputs:
-            song - file name of song to play
+            song_list - list of songs, must be formatted as follows: ["song.file_type"]
         '''
         # variable for file path of the audio file to play
-        self.file_path = song
+        self.song_list = song_list
         # create tkinter window, set size, make non-resizable
         self.window = tk.Tk()
         self.window.title('Spaghetti Sign')
@@ -37,14 +37,18 @@ class main_window:
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
         pygame.mixer.init()
 
-    def play_audio(self):
+    def play_audio(self, song_to_play):
         '''
         Plays the audio file input in __init__ named self.file_path
+        Inputs:
+            song_to_play - index of desired song from song_list
         '''
+        self.file_path = self.song_list[song_to_play]
         # Load the audio file
         pygame.mixer.music.load(self.file_path)
         # Start playing the audio
         pygame.mixer.music.play()
+        # continues to update the tkinter window while music is playing, keeps window responsive
         while pygame.mixer.music.get_busy():
             self.window.update()
     
@@ -73,6 +77,17 @@ class main_window:
         self.notebook.add(self.page2, 
                     text="Results")
 
+        self.notebook.bind('<<NotebookTabChanged>>', self.when_selected)
+
+    def when_selected(self, event):
+        '''
+        Plays an audio file when Results tab is selected
+        '''
+        # finds which tab is currently selected and sets this variable to the text attribute of that tab
+        self.selected_tab = self.notebook.tab(event.widget.select(), 'text')
+        # plays desired audio file if the selected tab is the Results tab
+        if self.selected_tab == 'Results':
+            self.play_audio(2)
 
     # Page 1's labels
     def title_label(self):
@@ -193,6 +208,9 @@ class main_window:
                                         anchor='nw')
 
     def slide_arrangement(self):
+        '''
+        creates and places the buttons to determine whether the sign cycles randomly or not
+        '''
         self.slide_arrange_label = ttk.Label(self.page1, 
                                         text='Slide arrangement:', 
                                         font=("Arial", 16))
@@ -204,7 +222,8 @@ class main_window:
                                             text='Slideshow',
                                             width=10,
                                             foreground='gray',
-                                            command=lambda: main_window.button_selected(self, function=self.slide_arrange_button_S))
+                                            command=lambda: [main_window.button_selected(self, function=self.slide_arrange_button_S),
+                                                            main_window.play_audio(self, 2)])
         self.slide_arrange_button_S.place(relx=0.3, 
                                     rely=0.47, 
                                     anchor='nw')
@@ -242,6 +261,71 @@ class main_window:
         self.computer_button = ttk.Button(self.page1, text='COMPUTE', width=10)
         self.computer_button.place(relx=0.5, rely=0.6, anchor='n')
     
+    def place_graphs(self, graph_list):
+        '''
+        places the graphs
+        '''
+        row = 0
+        column = 0
+        for graph in graph_list:
+            graph = FigureCanvasTkAgg(figure1, desired_page)
+            graph.get_tk_widget().grid(row=row, column=column)
+            column += 1
+            if column == 2:
+                column = 0
+                row += 1
+    
+    def create_graphs(self, data_list: list, chart_title: str, desired_page):
+        '''
+        Inputs: 
+        x_axis_label - label of the x-axis
+        y_axis_label - label of the y-axis
+        desired_page - the page to add the bar graph to
+        chart_title - title of the bar graph
+        data_to_graph - dictionary in format {'x-axis label': [x, axis, categorical, variables], 
+                                                'y-axis label': [bar value]}
+        '''
+        row = 0
+        column = 0
+        # loop to create and .grid bar graphs
+        for data_to_graph in data_list:
+            column += 1
+            self.x_axis_label = list(data_to_graph.keys())[0]
+            self.y_axis_label = list(data_to_graph.keys())[1]
+            self.chart_title = chart_title
+            self.data_to_graph = data_to_graph
+            self.data_to_graph_data_frame = pd.DataFrame(data_to_graph)
+            # create a figure with a specific size and resolution
+            figure1 = plt.Figure(figsize=(3.68, 4), dpi=100)
+
+            # add a subplot to the figure
+            ax1 = figure1.add_subplot(111)
+
+            # create a FigureCanvasTkAgg object to display the figure in a tkinter window
+            bar1 = FigureCanvasTkAgg(figure1, desired_page)
+            bar1.get_tk_widget().grid(row=row, column=column, padx=2, pady=2)
+
+            # group the dataframe by 'country' and sum the 'gdp_per_capita' column
+            self.data_to_graph_data_frame = self.data_to_graph_data_frame[[self.x_axis_label, self.y_axis_label]].groupby(self.x_axis_label).sum()
+
+            # plot the data on the subplot as a bar chart with a legend
+            self.data_to_graph_data_frame.plot(kind='bar', legend=True, ax=ax1)
+
+            # set the title of the subplot
+            ax1.set_title(chart_title)
+            if column == 2:
+                column = 0
+                row += 1
+        
+    def scroll_bar(self):
+        '''
+        
+        '''
+        scroll = tk.Scrollbar(self.page2)
+        scroll.place(relx=.97, rely=.5)
+
+        scroll.config(command=self.page2.yview)
+
     def main_loop(self):
         '''
         Activates the main loop
@@ -267,7 +351,7 @@ class bar_graph:
         self.data_to_graph = data_to_graph
         self.data_to_graph_data_frame = pd.DataFrame(data_to_graph)
         # create a figure with a specific size and resolution
-        figure1 = plt.Figure(figsize=(6, 5), dpi=100)
+        figure1 = plt.Figure(figsize=(.2, .1), dpi=100)
 
         # add a subplot to the figure
         ax1 = figure1.add_subplot(111)
@@ -285,11 +369,29 @@ class bar_graph:
         # set the title of the subplot
         ax1.set_title(chart_title)
 
-# testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
-#          'Number of Signs Seen': [1, 2, 3, 4, 5]
-#          }
+testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
+         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         }
+testing_data2 = {'Days of Attendance': [1, 2, 3, 4, 5],
+         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         }
+testing_data3 = {'Days of Attendance': [1, 2, 3, 4, 5],
+         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         }
+testing_data4 = {'Days of Attendance': [1, 2, 3, 4, 5],
+         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         }
+testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
 
-# test_graph = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', )
+# test_graph1 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
+
+# test_graph2 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
+
+# test_graph3 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
+
+# test_graph4 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
+
+# test_graph_list = [test_graph1, test_graph2, test_graph3, test_graph4]
             
 # things to add
 
@@ -299,29 +401,20 @@ class bar_graph:
 
 # total signs seen vs day of the week graph (y-axis: #signs seen by all student, x-axis: day of the week)
 
+songs_list = ["I'm a Lady.flac", "Blur_Song_2.wav", "Look at this graph.flac"]
 def run_gui():
-    tkinter_window = main_window("I'm a Lady.flac")
-    print('tkinter_window')
+    tkinter_window = main_window(songs_list)
     tkinter_window.ttk_notebook()
-    print('ttk_notebook')
     tkinter_window.title_label()
-    print('title_label')
     tkinter_window.vehicle_header()
-    print('vehicle_header')
     tkinter_window.vehicle_number()
-    print('vehicle_number')
     tkinter_window.vehicle_attendance()
-    print('vehicle_attendance')
     tkinter_window.sign_header()
-    print('sign_header')
     tkinter_window.slide_arrangement()
-    print('slide_arrangement')
     tkinter_window.credit()
-    print('credit')
     tkinter_window.compute_button()
-    print('compute_button')
-    tkinter_window.play_audio()
-    print('play_audio')
+    tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
+    # tkinter_window.scroll_bar()
     tkinter_window.main_loop()
 
 run_gui()
