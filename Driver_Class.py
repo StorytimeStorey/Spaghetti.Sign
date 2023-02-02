@@ -1,21 +1,60 @@
-# Driver class.
-# Created by Story.
-# Driver class creates a driver instance that generates a schedule.
-# This schedule will be looked at by The Gear in order to be queued in order for the simulation.
+
+
 import random
 
 Day_List = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
-# Average days a student attends, according to data from Matthew Connot. Used to generate
-# how many days a student will be on the schedule.
 Attendance_average = 2.6
 
-# Variables used for the generating_drive_speed function, which...generates the driver's speed.
 speedmin = 10 
 speedmax = 20 
 varmin = 1 
 varmax = 5
+amount_of_students = 20
 
+
+class Node:
+    def __init__(self, driver):
+        self.driver = driver
+        self.next = None
+
+
+class Student_Queue:
+    '''
+    Here lies the Queue, hallowed by thy name
+    It isn't circular yet. I"m not quite sure how to do that. 
+    We cna probably just have it run every time the week starts again if we, as a group, decided
+    that none of us knew how a circular queue works.
+    '''
+    Day_List = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+    def __init__(self):
+        self.head = None
+        self.drivers = [Driver(f'Driver {i}', Attendance_average,speedmin, speedmax, varmin, varmax) for i in range(amount_of_students)]
+        self.day_list = Day_List
+        self.enqueue_students()
+
+
+    def enqueue_students(self):
+        for second in range(604801):
+            for driver in self.drivers:
+                if second in driver.arrival_time:
+                    current_driver = Node(driver)
+                    #call speed randomizer from driver
+                    self.add(current_driver)
+
+    def add(self, node):
+        if not self.head:
+            self.head = node
+        else:
+            current_node = self.head
+            while current_node.next:
+                current_node = current_node.next
+            current_node.next = node
+
+
+
+    
 class Driver:
     def __init__(self, ID, Attendance_average, speedmin, speedmax, varmin, varmax):
         self.ID = ID
@@ -26,16 +65,17 @@ class Driver:
         self.speed = {}
         self.speed["drive_speed"] = random.randint(speedmin, speedmax)
         self.speed["drive_speed_var"] = random.randint(varmin, varmax)
+        self.data = {}
+        self.arrival_time = []
+        self.arrival_time_generator()
 
-        self.data = {}   
 
-    # update_data function will be used to store what signs each instance of the driver class has seen.
-    # this information will later be extracted by the GUI to use in graphs and the "results" page.
-    def update_data(self, message):
+    def signs_seen(self, message):
         """
-        This function updates the data dictionary.
-        If the message is already in the data, the count is incremented.
-        Otherwise, the message is added to the data with a count of 1.
+        This function keeps track of how many signs are seen
+        "message" represents each individual signs
+        If the student has seen the sign, it'll increment the count
+        If they haven't seen it, it'll add that sign to the dictionary and set the counter to 1
         """
         if message in self.data:
             self.data[message] += 1
@@ -154,6 +194,30 @@ class Driver:
         else:
             return None
 
+    def hour_second_randomizer(self, day_of_week, hour_of_day):
+        days_of_week = {
+            "Sunday": 0,
+            "Monday": 86400,
+            "Tuesday": 172800,
+            "Wednesday": 259200,
+            "Thursday": 345600,
+            "Friday": 432000,
+            "Saturday": 518400
+        }
+
+        #Randomizes the specific second that the student will arrive.
+        seconds_passed = days_of_week[day_of_week] + int(hour_of_day) * 60 * 60
+        start_of_hour = seconds_passed
+        end_of_hour = start_of_hour + 60 * 60 - 1
+        second_of_arrival = random.randint(start_of_hour, end_of_hour)
+        return(second_of_arrival)
+
+    def arrival_time_generator(self):
+        arrival = [self.hour_second_randomizer(day, self.schedule[day]) for day in self.schedule.keys()]
+        self.arrival_time = arrival
+
+
+
     def generate_drive_speed(self):
         '''
         Is to be called when enqueued in the linked list
@@ -163,5 +227,11 @@ class Driver:
         todays_speed = self.speed["drive_speed"] + random.randint(-self.speed["drive_speed_var"], self.speed["drive_speed_var"])
         return todays_speed
 
-# Test code for creating drivers.
-drivers = [Driver(f'Driver {i}', Attendance_average,speedmin, speedmax, varmin, varmax) for i in range(2000)]
+
+students = Student_Queue()
+
+if __name__ == "__main__":
+    current_driver = students.head
+    while current_driver != None:
+        print(current_driver.driver.arrival_time)
+        current_driver = current_driver.next
