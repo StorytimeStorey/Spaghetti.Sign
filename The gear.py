@@ -50,8 +50,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         tracker += 1
         thing = SC.sign_node(str(tracker))
         sign_setup.append(thing)
-    sign_setup.cycle_image()
-
+    # sign_setup.cycle_image()
     # Setup for the Timekeeping module.
     TimeK.seconds_in_week = 604800 * simulated_weeks
     TimeK.current_second = 0
@@ -62,7 +61,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
 
     while TimeK.current_second <= total_time:
         TimeK.current_second = TimeK.current_second + 1
-
+        sign_setup.cycle_image()
         # Checks if the_day variable is different from TimeK's current_day.
         # If so, update the_day variable.
         # Will be used for creating queue of drivers for the day.
