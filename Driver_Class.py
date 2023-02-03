@@ -230,7 +230,7 @@ class Driver:
 
 students = Student_Queue()
 
-if __name__ == "__main__":
+if True:
     current_driver = students.head
     while current_driver != None:
         print(current_driver.driver.arrival_time)

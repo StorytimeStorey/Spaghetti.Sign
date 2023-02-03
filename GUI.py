@@ -1,11 +1,12 @@
-# GUI System
-# Last edited 1-26-23 by Jackson & Maverick
+# GUI System/Master File
+# Last edited 2-2-23 by Jackson & Maverick
 # The GUI Lagoon
 
 # Current Issues/To Dos:
+# Get system to check if any drivers are arriving at the current second.
+# Fix audio system/errors occurring from audio.
+
 # Make sure GUI it works with everything else.
-# Add button to take all the things and do all the math mumbo jumbo.
-# Make the slide arrangement button selected easier to look at.
 # Say hi to the wife and kids.
 
 
@@ -427,6 +428,7 @@ run_gui()
 
 simulated_weeks = 2
 simulated_drivers_number = 20
+simulated_driver_days = 3
 simulated_slide_numbers = 15
 simulated_slide_speed = 10
 simulated_slide_order = "slideshow"
@@ -436,7 +438,7 @@ tracker = 0
 def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order):
 
     # System to create drivers.
-    drivers = [Driver(f'Driver {i}', Attendance_average=2.6, speedmin=10, speedmax=20, varmin=1, varmax=5) for i in range(simulated_drivers_number)]
+    drivers = [Driver(f'Driver {i}', Attendance_average=simulated_driver_days, speedmin=10, speedmax=20, varmin=1, varmax=5) for i in range(simulated_drivers_number)]
    
     # System to setup sign and the cycle_sign method.
     # Note: the sign cycling runs /independent/ of TimeKeeping. But since they're executed at the same time,
@@ -464,7 +466,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         # Will be used for creating queue of drivers for the day.
         if TimeK.current_day(TimeK.current_second) != the_day:
             the_day = TimeK.current_day(TimeK.current_second)
-            # print(the_day)
+            print(the_day)
         
         # Checks if the_hour variable is different from TimeK's current_hour.
         # If so, update the_hour variable.
@@ -478,8 +480,14 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
     # Have driver_speed generate /seperately/ from each driver, then used on driver.
     # Re:Small issues: Have system that reports driver-to-sign info.
 
+    # Data Capture system:
+    # Driver generates schedule.
+    # System checks if current time has any drivers queued during it.
+    # Current sign information is reported to driver.
+        # Driver is actively checking if it's seen the sign before. If not, add it to the dictionary.
+
     # Set up driver queue on a per day basis.
         # Check and start portion of the queue 
 
 #test command for running simulation.
-# run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
+run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
