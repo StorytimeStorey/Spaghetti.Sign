@@ -464,14 +464,14 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         # Will be used for creating queue of drivers for the day.
         if TimeK.current_day(TimeK.current_second) != the_day:
             the_day = TimeK.current_day(TimeK.current_second)
-            print(the_day)
+            # print(the_day)
         
         # Checks if the_hour variable is different from TimeK's current_hour.
         # If so, update the_hour variable.
         # Will be used for creating queue of drivers for the hour, and then simulating the drive up.
         if TimeK.current_hour(TimeK.current_second) != the_hour:
             the_hour = TimeK.current_hour(TimeK.current_second)
-            print(the_hour)
+            # print(the_hour)
 
     # Simulation needs:
     # Have drivers queued up after each hour.
@@ -482,4 +482,4 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         # Check and start portion of the queue 
 
 #test command for running simulation.
-run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
+# run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)

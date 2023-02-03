@@ -91,7 +91,7 @@ for thing in range(20):
     thing = sign_node(str(tracker))
     testing_sign.append(thing)
     print(thing)
-testing_sign.cycle_image()
-print(testing_sign)
+# testing_sign.cycle_image()
+# print(testing_sign)
 
 
