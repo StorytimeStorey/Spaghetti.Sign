@@ -11,8 +11,8 @@
 
 import tkinter as tk
 from tkinter import ttk
-import playsound
-import pygame
+# import playsound
+# import pygame
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -35,28 +35,28 @@ class main_window:
         self.window.resizable(width=False, height=False)
         # set a protocol for when the window is closed
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
-        pygame.mixer.init()
+        # pygame.mixer.init()
 
-    def play_audio(self, song_to_play):
-        '''
-        Plays the audio file input in __init__ named self.file_path
-        Inputs:
-            song_to_play - index of desired song from song_list
-        '''
-        self.file_path = self.song_list[song_to_play]
-        # Load the audio file
-        pygame.mixer.music.load(self.file_path)
-        # Start playing the audio
-        pygame.mixer.music.play()
-        # continues to update the tkinter window while music is playing, keeps window responsive
-        while pygame.mixer.music.get_busy():
-            self.window.update()
+    # def play_audio(self, song_to_play):
+    #     '''
+    #     Plays the audio file input in __init__ named self.file_path
+    #     Inputs:
+    #         song_to_play - index of desired song from song_list
+    #     '''
+    #     self.file_path = self.song_list[song_to_play]
+    #     # Load the audio file
+    #     pygame.mixer.music.load(self.file_path)
+    #     # Start playing the audio
+    #     pygame.mixer.music.play()
+    #     # continues to update the tkinter window while music is playing, keeps window responsive
+    #     while pygame.mixer.music.get_busy():
+    #         self.window.update()
     
     def on_closing(self):
         '''
         destroys the tkinter window, destroys all widgets currently running when window closes
         '''
-        pygame.mixer.music.stop()
+        # pygame.mixer.music.stop()
         self.window.destroy()
 
     # TTK Notebook setup info
