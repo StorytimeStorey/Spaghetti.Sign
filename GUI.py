@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 import sign_class_finished as SC
-from Driver_Class import Driver
+import Driver_Class as DriverC
 import Timekeeping as TimeK
 
 
@@ -438,8 +438,9 @@ tracker = 0
 def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order):
 
     # System to create drivers.
-    drivers = [Driver(f'Driver {i}', Attendance_average=simulated_driver_days, speedmin=10, speedmax=20, varmin=1, varmax=5) for i in range(simulated_drivers_number)]
-   
+    DriverC.amount_of_students = simulated_drivers_number
+    studentsSim = DriverC.Student_Queue()
+
     # System to setup sign and the cycle_sign method.
     # Note: the sign cycling runs /independent/ of TimeKeeping. But since they're executed at the same time,
     # they should be working in tandem.
@@ -458,9 +459,24 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
     the_hour = 0
     total_time = 0
 
+
+    # This does all the magic. This will be the main simulation loop, counting the seconds until we reach the end.
+    # Every second, it will check to see if any of the drivers arrive at the current time 
     while TimeK.current_second <= total_time:
         TimeK.current_second = TimeK.current_second + 1
         sign_setup.cycle_image()
+
+        # Every cycle, the linked list will go through its nodes and check if any driver's arrival_time matches the current_second.
+        # If so, generate a drive speed and (yet to be implemented) simulate them driving up the hill and recording the signs they saw.
+        current_driver = DriverC.students.head
+        while current_driver != None:
+            current_driver = current_driver.next
+            if TimeK.current_second in current_driver.driver.arrival_time:
+                DriverC.Driver.generate_drive_speed
+                print("DING!")
+
+
+
         # Checks if the_day variable is different from TimeK's current_day.
         # If so, update the_day variable.
         # Will be used for creating queue of drivers for the day.
@@ -476,7 +492,6 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
             # print(the_hour)
 
     # Simulation needs:
-    # Have drivers queued up after each hour.
     # Have driver_speed generate /seperately/ from each driver, then used on driver.
     # Re:Small issues: Have system that reports driver-to-sign info.
 
@@ -490,4 +505,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         # Check and start portion of the queue 
 
 #test command for running simulation.
-run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
+# run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
+
+DriverC.amount_of_students = simulated_drivers_number
+print(DriverC.amount_of_students)

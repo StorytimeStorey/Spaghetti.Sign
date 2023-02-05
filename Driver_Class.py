@@ -10,7 +10,7 @@ speedmin = 10
 speedmax = 20 
 varmin = 1 
 varmax = 5
-amount_of_students = 20
+amount_of_students = 10
 
 
 class Node:
@@ -230,8 +230,8 @@ class Driver:
 
 students = Student_Queue()
 
-if True:
-    current_driver = students.head
-    while current_driver != None:
-        print(current_driver.driver.arrival_time)
-        current_driver = current_driver.next
+# if True:
+#     current_driver = students.head
+#     while current_driver != None:
+#         print(current_driver.driver.arrival_time)
+#         current_driver = current_driver.next
