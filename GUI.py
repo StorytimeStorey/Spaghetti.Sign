@@ -435,6 +435,23 @@ simulated_slide_order = "slideshow"
 drivers = 0
 tracker = 0
 
+
+# start_drive will be the method that actually simulates driving up the road to the sign.
+# A local version of the sign_class will be ran in order to make sure it can properly function without
+# messing up or slowing down the simulation's main sign.
+def start_drive(current_driver, drive_speed, current_sign_time):
+    current_driver = current_driver
+    drive_speed = drive_speed
+    current_sign_time = current_sign_time
+
+    drive_time = 0
+    
+    while drive_time > drive_speed:
+        drive_time = drive_time + 1
+        DriverC.Driver.signs_seen(tracker)
+
+
+# Believe it or not, it runs the simulation.
 def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order):
 
     # System to create drivers.
@@ -468,12 +485,15 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
 
         # Every cycle, the linked list will go through its nodes and check if any driver's arrival_time matches the current_second.
         # If so, generate a drive speed and (yet to be implemented) simulate them driving up the hill and recording the signs they saw.
-        current_driver = DriverC.students.head
+        current_driver = studentsSim.head
         while current_driver != None:
             current_driver = current_driver.next
-            if TimeK.current_second in current_driver.driver.arrival_time:
+            if TimeK.current_second in current_driver.Driver.arrival_time:
                 DriverC.Driver.generate_drive_speed
+
                 print("DING!")
+                
+                
 
 
 
