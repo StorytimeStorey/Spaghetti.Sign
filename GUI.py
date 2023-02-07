@@ -71,12 +71,21 @@ class main_window:
         self.page2 = ttk.Frame(self.window)
         self.page1.place(anchor='e')
         self.page2.pack()
-
+        # To Do: place a canvas on page2, then place a frame on the canvas, then make it scrollable
         self.notebook.add(self.page1, 
                     text="Input Field")
         self.notebook.add(self.page2, 
                     text="Results")
-
+        self.page2_canvas = tk.Canvas(self.page2)
+        self.page2_canvas.place()
+        self.page2_canvas_frame = tk.Frame(self.page2_canvas)
+        self.page2_canvas_window = self.page2_canvas.create_window((0, 0), window=self.page2_canvas_frame)
+        vertical_scroll = tk.Scrollbar(self.page2, command=self.page2_canvas.yview)
+        vertical_scroll.place(relx=.5, rely=.5)
+        self.page2_canvas.configure(yscrollcommand=vertical_scroll.set)
+        for i in range(1, 101):
+            tk.Label(self.page2_canvas_frame, text=str(i), width=5, height=2).pack()
+        # activates when_selected function when the tab is changed
         self.notebook.bind('<<NotebookTabChanged>>', self.when_selected)
 
     def when_selected(self, event):
@@ -332,43 +341,6 @@ class main_window:
         '''
         self.window.mainloop()
 
-# Page 2's labels.
-class bar_graph:
-
-    def __init__(self, data_to_graph: dict, chart_title: str, desired_page):
-        '''
-        Inputs: 
-        x_axis_label - label of the x-axis
-        y_axis_label - label of the y-axis
-        desired_page - the page to add the bar graph to
-        chart_title - title of the bar graph
-        data_to_graph - dictionary in format {'x-axis label': [x, axis, categorical, variables], 
-                                                'y-axis label': [bar value]}
-        '''
-        self.x_axis_label = list(data_to_graph.keys())[0]
-        self.y_axis_label = list(data_to_graph.keys())[1]
-        self.chart_title = chart_title
-        self.data_to_graph = data_to_graph
-        self.data_to_graph_data_frame = pd.DataFrame(data_to_graph)
-        # create a figure with a specific size and resolution
-        figure1 = plt.Figure(figsize=(.2, .1), dpi=100)
-
-        # add a subplot to the figure
-        ax1 = figure1.add_subplot(111)
-
-        # create a FigureCanvasTkAgg object to display the figure in a tkinter window
-        bar1 = FigureCanvasTkAgg(figure1, desired_page)
-        bar1.get_tk_widget().grid(row=0, column=0)
-
-        # group the dataframe by 'country' and sum the 'gdp_per_capita' column
-        self.data_to_graph_data_frame = self.data_to_graph_data_frame[[self.x_axis_label, self.y_axis_label]].groupby(self.x_axis_label).sum()
-
-        # plot the data on the subplot as a bar chart with a legend
-        self.data_to_graph_data_frame.plot(kind='bar', legend=True, ax=ax1)
-
-        # set the title of the subplot
-        ax1.set_title(chart_title)
-
 testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
          'Number of Signs Seen': [1, 2, 3, 4, 5]
          }
@@ -382,16 +354,6 @@ testing_data4 = {'Days of Attendance': [1, 2, 3, 4, 5],
          'Number of Signs Seen': [1, 2, 3, 4, 5]
          }
 testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
-
-# test_graph1 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
-
-# test_graph2 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
-
-# test_graph3 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
-
-# test_graph4 = bar_graph(data_to_graph=testing_data, chart_title='Testing chart', desired_page=tkinter_window.page2)
-
-# test_graph_list = [test_graph1, test_graph2, test_graph3, test_graph4]
             
 # things to add
 
