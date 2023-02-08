@@ -11,7 +11,6 @@
 
 import tkinter as tk
 from tkinter import ttk
-import playsound
 import pygame
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -277,7 +276,7 @@ class main_window:
         row = 0
         column = 0
         for graph in graph_list:
-            graph = FigureCanvasTkAgg(figure1, desired_page)
+            graph = FigureCanvasTkAgg()
             graph.get_tk_widget().grid(row=row, column=column)
             column += 1
             if column == 2:
@@ -376,7 +375,7 @@ def run_gui():
     tkinter_window.credit()
     tkinter_window.compute_button()
     tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
-    # tkinter_window.scroll_bar()
     tkinter_window.main_loop()
 
 run_gui()
+
