@@ -43,7 +43,7 @@ class Student_Queue:
                     #call speed randomizer from driver
                     self.add(current_driver)
 
-    def add(self, node):
+    def add(self, node:Node):
         if not self.head:
             self.head = node
         else:
@@ -228,7 +228,7 @@ class Driver:
         return todays_speed
 
 
-students = Student_Queue()
+# students = Student_Queue()
 
 # if True:
 #     current_driver = students.head
