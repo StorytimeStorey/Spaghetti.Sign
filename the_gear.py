@@ -35,7 +35,7 @@ def start_drive(current_driver, drive_speed, tracker):
     drive_time = 0
     
     # Recording lasts until the drive_time has reached the drive_speed generated during run_simulation.
-    while drive_time > drive_speed:
+    while drive_time < drive_speed:
         drive_time += 1
         artif_sign_clock += 1
 
@@ -47,7 +47,7 @@ def start_drive(current_driver, drive_speed, tracker):
             artif_sign_tracker = 0
         # Sends whichever sign it got from the while loop off to the current_driver's "signs_seen" function to
         # be added to their "data"
-        DriverC.Driver.signs_seen(artif_sign_tracker)
+        current_driver.driver.signs_seen(artif_sign_tracker)
 
 
 # Believe it or not, it runs the simulation.
@@ -102,7 +102,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
                 # print("False")
             current_driver = current_driver.next
 
-        # print(current_driver.driver.data[1])
+    print(studentsSim.head.driver.data)
 
 
 DriverC.amount_of_students = simulated_drivers_number
