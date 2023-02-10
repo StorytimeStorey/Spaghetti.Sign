@@ -439,16 +439,37 @@ tracker = 0
 # start_drive will be the method that actually simulates driving up the road to the sign.
 # A local version of the sign_class will be ran in order to make sure it can properly function without
 # messing up or slowing down the simulation's main sign.
+
+# The fog is coming.
 def start_drive(current_driver, drive_speed, tracker):
     current_driver = current_driver
     drive_speed = drive_speed
-    tracker = tracker
+    artif_sign_tracker = tracker
+
+    # We weren't able to properly integrate the sign_class's system into start_drive, so
+    # instead an artificial sign and cycling system is created to do the calcuations and doesn't
+    # affect the actual sign_class.
+    artif_sign_speed = simulated_slide_speed
+    artif_sign_start_point = SC.cycle_time
+    artif_sign_number = simulated_slide_numbers
+    artif_sign_clock = artif_sign_start_point
 
     drive_time = 0
     
+    # Recording lasts until the drive_time has reached the drive_speed generated during run_simulation.
     while drive_time > drive_speed:
         drive_time = drive_time + 1
-        DriverC.Driver.signs_seen(tracker)
+        artif_sign_clock = artif_sign_clock + 1
+
+        # checks if the clock has reached the speed of the sign. If so, cycle to the next sign.
+        if artif_sign_clock == artif_sign_speed:
+            artif_sign_tracker = artif_sign_tracker + 1
+        # checks if the sign has reached the end of signs. If so, cycle back to the first sign.
+        if artif_sign_tracker == artif_sign_number:
+            artif_sign_tracker = 0
+        # Sends whichever sign it got from the while loop off to the current_driver's "signs_seen" function to
+        # be added to their "data"
+        DriverC.Driver.signs_seen(artif_sign_tracker)
 
 
 # Believe it or not, it runs the simulation.
@@ -474,7 +495,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
     # local variables for keeping track of the day or hour.
     the_day = ""
     the_hour = 0
-    total_time = 0
+    total_time = TimeK.seconds_in_week
 
 
     # This does all the magic. This will be the main simulation loop, counting the seconds until we reach the end.
@@ -490,6 +511,8 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
             current_driver = current_driver.next
             if TimeK.current_second in current_driver.DriverC.Driver.arrival_time:
                 drive_speed = DriverC.Driver.generate_drive_speed()
+                # Note to self: Have start_drive also grab the cycle timer from the sign_class and then use it to create an artificial
+                # sign_class to record data from.
                 start_drive(current_driver, drive_speed, tracker)
                 print("DING!")
                 
