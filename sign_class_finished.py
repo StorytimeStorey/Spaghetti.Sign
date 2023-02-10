@@ -78,6 +78,7 @@ class cycle_sign:
             for second in range (604801):
                 self.current_second = second
                 # move to the next image every [viewing_time] increments
+                # print(self.current_image)
                 if second%self.viewing_time == 0:
                     self.current_image = self.current_image.next
                     cycle_time = 0

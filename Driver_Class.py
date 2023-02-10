@@ -4,16 +4,22 @@ import random
 
 Day_List = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
-Attendance_average = 2.6
+Attendance_average = 2.6  #This should be a variable in the GUI. 
 
+#Dictate the fastest and slowest speed a student may "drive"
 speedmin = 10 
 speedmax = 20 
+
+#Variables for how much their speed may vary at any given day
 varmin = 1 
 varmax = 5
-amount_of_students = 10
+
+#The number of students that will be called. Should be a in GUI.
+amount_of_students = 20
 
 
 class Node:
+    #I'm just a lil node with a node family
     def __init__(self, driver):
         self.driver = driver
         self.next = None
@@ -34,7 +40,6 @@ class Student_Queue:
         self.day_list = Day_List
         self.enqueue_students()
 
-
     def enqueue_students(self):
         for second in range(604801):
             for driver in self.drivers:
@@ -43,7 +48,7 @@ class Student_Queue:
                     #call speed randomizer from driver
                     self.add(current_driver)
 
-    def add(self, node: Node):
+    def add(self, node):
         if not self.head:
             self.head = node
         else:
@@ -58,17 +63,28 @@ class Student_Queue:
 # 
     
 class Driver:
+    """
+    Important info to be called are:
+        .data is a dictionary for what signs have been seen and how many times
+        .arrival_time is a list of times the student will arrive in specific seconds
+        def signs_seen(self, message) is the function for increasing the data dictionary
+        .schedule is a dictionary of days:hours that the students arrive 
+        def generate_drive_speed(self) is the function that gives the student a somewhat random drive speed
+            To be called when the driver arrives
+        I think that's all the important stuff, honestly. 
+    
+    """
     def __init__(self, ID, Attendance_average, speedmin, speedmax, varmin, varmax):
-        self.ID = ID
-        self.attendance_average = Attendance_average
-        self.days_attending = self.days_attended()
-        self.hour_arrived = self.choose_hour()
+        self.ID = ID  #Pretty much just a name, means nothing
+        self.attendance_average = Attendance_average 
+        self.days_attending = self.days_attended() #What days the student is attending
+        self.hour_arrived = self.choose_hour()  #What hours the student will arrive
         self.days_attending_total = sum(self.days_attending)
-        self.speed = {}
+        self.speed = {} #TO be filled on call
         self.speed["drive_speed"] = random.randint(speedmin, speedmax)
         self.speed["drive_speed_var"] = random.randint(varmin, varmax)
-        self.data = {}
-        self.arrival_time = []
+        self.data = {} #Where each students data of what signs it has seen will go
+        self.arrival_time = [] #This is where the SPECIFIC SECONDS in the week the student will arrive will be stored
         self.arrival_time_generator()
 
 
@@ -230,10 +246,11 @@ class Driver:
         return todays_speed
 
 
-# students = Student_Queue()
 
-# if True:
-#     current_driver = students.head
-#     while current_driver != None:
-#         print(current_driver.driver.arrival_time)
-#         current_driver = current_driver.next
+
+if __name__ == "__main__":
+    students = Student_Queue()
+    current_driver = students.head
+    while current_driver != None:
+        print(current_driver.driver.arrival_time)
+        current_driver = current_driver.next
