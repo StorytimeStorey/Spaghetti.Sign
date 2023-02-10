@@ -34,7 +34,6 @@ class main_window:
         self.window.resizable(width=False, height=False)
         # set a protocol for when the window is closed
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
-        pygame.mixer.init()
 
     def play_audio(self, song_to_play):
         '''
@@ -42,6 +41,7 @@ class main_window:
         Inputs:
             song_to_play - index of desired song from song_list
         '''
+        pygame.mixer.init()
         self.file_path = self.song_list[song_to_play]
         # Load the audio file
         pygame.mixer.music.load(self.file_path)
@@ -340,6 +340,7 @@ class main_window:
         '''
         self.window.mainloop()
 
+# start of testing code
 testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
          'Number of Signs Seen': [1, 2, 3, 4, 5]
          }
@@ -353,14 +354,7 @@ testing_data4 = {'Days of Attendance': [1, 2, 3, 4, 5],
          'Number of Signs Seen': [1, 2, 3, 4, 5]
          }
 testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
-            
-# things to add
-
-# num signs seen vs days of attendance graph
-
-# student average num signs seen per week
-
-# total signs seen vs day of the week graph (y-axis: #signs seen by all student, x-axis: day of the week)
+# end testing
 
 songs_list = ["I'm a Lady.flac", "Blur_Song_2.wav", "Look at this graph.flac"]
 def run_gui():
@@ -375,7 +369,7 @@ def run_gui():
     tkinter_window.credit()
     tkinter_window.compute_button()
     tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
+    # tkinter_window.scroll_bar()
     tkinter_window.main_loop()
 
 run_gui()
-
