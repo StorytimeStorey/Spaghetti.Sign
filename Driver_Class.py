@@ -34,7 +34,6 @@ class Student_Queue:
         self.day_list = Day_List
         self.enqueue_students()
 
-
     def enqueue_students(self):
         for second in range(604801):
             for driver in self.drivers:

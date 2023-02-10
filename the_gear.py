@@ -8,7 +8,7 @@ import Timekeeping as TimeK
 import GUI as GUI
 
 simulated_weeks = 2
-simulated_drivers_number = 20
+simulated_drivers_number = 4
 simulated_driver_days = 3
 simulated_slide_numbers = 15
 simulated_slide_speed = 10
@@ -36,12 +36,12 @@ def start_drive(current_driver, drive_speed, tracker):
     
     # Recording lasts until the drive_time has reached the drive_speed generated during run_simulation.
     while drive_time > drive_speed:
-        drive_time = drive_time + 1
-        artif_sign_clock = artif_sign_clock + 1
+        drive_time += 1
+        artif_sign_clock += 1
 
         # checks if the clock has reached the speed of the sign. If so, cycle to the next sign.
         if artif_sign_clock == artif_sign_speed:
-            artif_sign_tracker = artif_sign_tracker + 1
+            artif_sign_tracker += 1
         # checks if the sign has reached the end of signs. If so, cycle back to the first sign.
         if artif_sign_tracker == artif_sign_number:
             artif_sign_tracker = 0
@@ -79,57 +79,49 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
     # This does all the magic. This will be the main simulation loop, counting the seconds until we reach the end.
     # Every second, it will check to see if any of the drivers arrive at the current time 
     while TimeK.current_second <= total_time:
-        TimeK.current_second = TimeK.current_second + 1
+        TimeK.current_second += 1
         sign_setup.cycle_image()
 
+        # print(TimeK.current_second)
+
         # Every cycle, the linked list will go through its nodes and check if any driver's arrival_time matches the current_second.
-        # If so, generate a drive speed and (yet to be implemented) simulate them driving up the hill and recording the signs they saw.
+        # If so, generate a drive speed and simulate them driving up the hill and recording the signs they saw.
         current_driver = studentsSim.head
         while current_driver != None:
-            current_driver = current_driver.next
-            if TimeK.current_second in current_driver.DriverC.Driver.arrival_time:
-                drive_speed = DriverC.Driver.generate_drive_speed()
+            # print(current_driver.driver.arrival_time)
+            # print(type(current_driver))
+            if TimeK.current_second in current_driver.driver.arrival_time:
+                drive_speed = current_driver.driver.generate_drive_speed()
+                print("True")
                 # Note to self: Have start_drive also grab the cycle timer from the sign_class and then use it to create an artificial
                 # sign_class to record data from.
                 start_drive(current_driver, drive_speed, tracker)
-                print("DING!")
-                
-                
+                # print("DING!")
+            else:
+                pass
+                # print("False")
+            current_driver = current_driver.next
 
-
+        # print(current_driver.driver.data[1])
 
         # Checks if the_day variable is different from TimeK's current_day.
         # If so, update the_day variable.
         # Will be used for creating queue of drivers for the day.
-        if TimeK.current_day(TimeK.current_second) != the_day:
-            the_day = TimeK.current_day(TimeK.current_second)
-            print(the_day)
+        # if TimeK.current_day(TimeK.current_second) != the_day:
+        #     the_day = TimeK.current_day(TimeK.current_second)
+            # print(the_day)
         
         # Checks if the_hour variable is different from TimeK's current_hour.
         # If so, update the_hour variable.
         # Will be used for creating queue of drivers for the hour, and then simulating the drive up.
-        if TimeK.current_hour(TimeK.current_second) != the_hour:
-            the_hour = TimeK.current_hour(TimeK.current_second)
+        # if TimeK.current_hour(TimeK.current_second) != the_hour:
+        #     the_hour = TimeK.current_hour(TimeK.current_second)
             # print(the_hour)
 
-    # Simulation needs:
-    # Have driver_speed generate /seperately/ from each driver, then used on driver.
-    # Re:Small issues: Have system that reports driver-to-sign info.
 
-    # Data Capture system:
-    # Driver generates schedule.
-    # System checks if current time has any drivers queued during it.
-    # Current sign information is reported to driver.
-        # Driver is actively checking if it's seen the sign before. If not, add it to the dictionary.
-
-    # Set up driver queue on a per day basis.
-        # Check and start portion of the queue 
-
-        #test command for running simulation.
-# run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
-
-# DriverC.amount_of_students = simulated_drivers_number
+DriverC.amount_of_students = simulated_drivers_number
 # print(DriverC.amount_of_students)
 
+run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed, simulated_slide_order)
 
 GUI.run_gui()
