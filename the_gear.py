@@ -104,20 +104,6 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
 
         # print(current_driver.driver.data[1])
 
-        # Checks if the_day variable is different from TimeK's current_day.
-        # If so, update the_day variable.
-        # Will be used for creating queue of drivers for the day.
-        # if TimeK.current_day(TimeK.current_second) != the_day:
-        #     the_day = TimeK.current_day(TimeK.current_second)
-            # print(the_day)
-        
-        # Checks if the_hour variable is different from TimeK's current_hour.
-        # If so, update the_hour variable.
-        # Will be used for creating queue of drivers for the hour, and then simulating the drive up.
-        # if TimeK.current_hour(TimeK.current_second) != the_hour:
-        #     the_hour = TimeK.current_hour(TimeK.current_second)
-            # print(the_hour)
-
 
 DriverC.amount_of_students = simulated_drivers_number
 # print(DriverC.amount_of_students)
