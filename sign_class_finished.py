@@ -68,6 +68,8 @@ class cycle_sign:
         '''
         Cycles through the images, leaving each image as current_image for [viewing time] 
         '''
+        global cycle_time
+        cycle_time = 0
         self.current_image = self.head
         # tracks number of weeks passed during the current runtime
         self.num_weeks = 0
@@ -78,6 +80,9 @@ class cycle_sign:
                 print(self.current_image)
                 if second%self.viewing_time == 0:
                     self.current_image = self.current_image.next
+                    cycle_time = 0
+                else:
+                    cycle_time = cycle_time + 1
             self.num_weeks += 1
             # stop cycling once desired run_time is reached
             if self.num_weeks == self.run_time:
@@ -91,7 +96,7 @@ for thing in range(20):
     thing = sign_node(str(tracker))
     testing_sign.append(thing)
     print(thing)
-testing_sign.cycle_image()
-print(testing_sign)
+# testing_sign.cycle_image()
+# print(testing_sign)
 
 
