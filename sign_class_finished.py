@@ -75,14 +75,14 @@ class cycle_sign:
         self.num_weeks = 0
         # loop through linked list, pausing for the inputted viewing time on each node. 
         while self.is_running:
-            for second in range (604000):
+            for second in range (604801):
+                self.current_second = second
                 # move to the next image every [viewing_time] increments
-                print(self.current_image)
                 if second%self.viewing_time == 0:
                     self.current_image = self.current_image.next
                     cycle_time = 0
                 else:
-                    cycle_time = cycle_time + 1
+                    cycle_time += 1
             self.num_weeks += 1
             # stop cycling once desired run_time is reached
             if self.num_weeks == self.run_time:
@@ -93,9 +93,12 @@ testing_sign = cycle_sign(5, 1, True)
 tracker = 0 
 for thing in range(20):
     tracker += 1
-    thing = sign_node(str(tracker))
-    testing_sign.append(thing)
-    print(thing)
+    bro = sign_node(tracker)
+    testing_sign.append(bro)
+testing_sign.cycle_image()
+    # print(testing_sign.current_image)
+
+
 # testing_sign.cycle_image()
 # print(testing_sign)
 

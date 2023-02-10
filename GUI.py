@@ -21,16 +21,25 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class main_window:
-    def __init__(self, song_list):
+    def __init__(self, song_list, 
+                 slide_arrange_button_S_func: function, 
+                 slide_arrange_button_R_func: function, 
+                 run_sim: function):
         '''
         Initial main window method
         Inputs:
             song_list - list of songs, must be formatted as follows: ["song.file_type"]
+            slide_arrange_button_R_func - the function to be executed when random slides is selected
+            slide_arrange_button_S_func - the function to be executed when cycle slides is selected
+            run_sim - the function that will be executed when the compute button is pressed, runs the simulation
         '''
         # variable for file path of the audio file to play
         self.song_list = song_list
         # create tkinter window, set size, make non-resizable
         self.window = tk.Tk()
+        self.slide_arrange_button_S_func = slide_arrange_button_S_func
+        self.slide_arrange_button_R_func = slide_arrange_button_R_func
+        self.run_sim = run_sim
         self.window.title('Spaghetti Sign')
         self.window_width = 800
         self.window_height = 700
@@ -106,7 +115,9 @@ class main_window:
         '''
         Creates and packs the title label
         '''
-        title_label = ttk.Label(self.page1, text='SPAGHETTI SIGN PROJECT', font=("Times New Roman", 18))
+        title_label = ttk.Label(self.page1, 
+                                text='SPAGHETTI SIGN PROJECT', 
+                                font=("Times New Roman", 18))
         title_label = ttk.Label(self.page1, 
                                 text='SPAGHETTI SIGN PROJECT', 
                                 font=("Times New Roman", 18))
@@ -171,82 +182,83 @@ class main_window:
         Creates and places all the input information for the sign
         '''
         self.sign_header = ttk.Label(self.page1, 
-                                text='Sign Info:', 
-                                font=("Arial", 
-                                20))
+                                     text='Sign Info:', 
+                                     font=("Arial", 
+                                     20))
         self.sign_header.place(relx=0.05, 
-                        rely=0.3, 
-                        anchor='nw')
+                               rely=0.3, 
+                               anchor='nw')
 
         # input for number of slides in the sign
         self.slide_number_label = ttk.Label(self.page1, 
-                                    text='Number of slides:', 
-                                    font=("Arial", 
-                                    16))
+                                            text='Number of slides:', 
+                                            font=("Arial", 
+                                            16))
         self.slide_number_label.place(relx=0.055, 
-                                rely=0.37, 
-                                anchor='nw')
+                                      rely=0.37, 
+                                      anchor='nw')
 
         self.slide_number_entry = ttk.Entry(self.page1, 
-                                    width=13, 
-                                    font=("Times New Roman", 
-                                    16))
+                                            width=13, 
+                                            font=("Times New Roman", 
+                                            16))
         self.slide_number_entry.place(relx=0.3, 
-                                rely=0.37, 
-                                anchor='nw')
+                                      rely=0.37, 
+                                      anchor='nw')
 
         # input for setting the cycle speed of the sign
         self.slide_speed_label = ttk.Label(self.page1, 
-                                    text='Slide cycle speed:', 
-                                    font=("Arial", 16))
+                                           text='Slide cycle speed:', 
+                                           font=("Arial", 16))
         self.slide_speed_label.place(relx=0.055, 
-                                rely=0.42, 
-                                anchor='nw')
+                                     rely=0.42, 
+                                     anchor='nw')
 
         self.slide_speed_entry = ttk.Entry(self.page1, 
-                                    width=6, 
-                                    font=("Times New Roman", 
-                                    16))
+                                           width=6, 
+                                           font=("Times New Roman", 
+                                           16))
         self.slide_speed_entry.place(relx=0.3, 
-                                rely=0.42, 
-                                anchor='nw')
+                                     rely=0.42, 
+                                     anchor='nw')
         # shows units of time for cycle speed
         self.slide_speed_seconds_label = ttk.Label(self.page1, 
-                                            text='  seconds', 
-                                            font=("Arial", 
-                                            14))
+                                                   text='  seconds', 
+                                                   font=("Arial", 
+                                                   14))
         self.slide_speed_seconds_label.place(relx=0.385, 
-                                        rely=0.426, 
-                                        anchor='nw')
+                                             rely=0.426, 
+                                             anchor='nw')
 
     def slide_arrangement(self):
         '''
         creates and places the buttons to determine whether the sign cycles randomly or not
         '''
         self.slide_arrange_label = ttk.Label(self.page1, 
-                                        text='Slide arrangement:', 
-                                        font=("Arial", 16))
+                                             text='Slide arrangement:', 
+                                             font=("Arial", 16))
         self.slide_arrange_label.place(relx=0.055, 
-                                rely=0.47, 
-                                anchor='nw')
+                                       rely=0.47, 
+                                       anchor='nw')
         # determines if the sign goes in an order or randomizes the images
         self.slide_arrange_button_S = tk.Button(self.page1, 
-                                            text='Slideshow',
-                                            width=10,
-                                            foreground='gray',
-                                            command=lambda: [main_window.button_selected(self, function=self.slide_arrange_button_S),
-                                                            main_window.play_audio(self, 2)])
+                                                text='Slideshow',
+                                                width=10,
+                                                foreground='gray',
+                                                command=lambda: [main_window.button_selected(self, function=self.slide_arrange_button_S),
+                                                                 self.slide_arrange_button_S_func()])
         self.slide_arrange_button_S.place(relx=0.3, 
-                                    rely=0.47, 
-                                    anchor='nw')
+                                          rely=0.47, 
+                                          anchor='nw')
         self.slide_arrange_button_R = tk.Button(self.page1, 
-                                            text='Random', 
-                                            width=10,
-                                            foreground='gray',
-                                            command=lambda: main_window.button_selected(self, function=self.slide_arrange_button_R))
+                                                text='Random', 
+                                                width=10,
+                                                foreground='gray',
+                                                command=lambda: [main_window.button_selected(self, function=self.slide_arrange_button_R),
+                                                             self.slide_arrange_button_S_func()])
         self.slide_arrange_button_R.place(relx=0.474, 
-                                    rely=0.47, 
-                                    anchor='nw')
+                                          rely=0.47, 
+                                          anchor='nw')
 
     def button_selected(self, function):
         '''
@@ -270,7 +282,7 @@ class main_window:
         '''
         Activates the simulation (not done yet)
         '''
-        self.computer_button = ttk.Button(self.page1, text='COMPUTE', width=10)
+        self.computer_button = ttk.Button(self.page1, text='COMPUTE', width=10, command=self.run_sim)
         self.computer_button.place(relx=0.5, rely=0.6, anchor='n')
     
     def place_graphs(self, graph_list):
@@ -376,4 +388,4 @@ def run_gui():
     # tkinter_window.scroll_bar()
     tkinter_window.main_loop()
 
-# run_gui()
+run_gui()

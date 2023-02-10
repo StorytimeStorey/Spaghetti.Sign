@@ -36,12 +36,12 @@ def start_drive(current_driver, drive_speed, tracker):
     
     # Recording lasts until the drive_time has reached the drive_speed generated during run_simulation.
     while drive_time > drive_speed:
-        drive_time = drive_time + 1
-        artif_sign_clock = artif_sign_clock + 1
+        drive_time += 1
+        artif_sign_clock += 1
 
         # checks if the clock has reached the speed of the sign. If so, cycle to the next sign.
         if artif_sign_clock == artif_sign_speed:
-            artif_sign_tracker = artif_sign_tracker + 1
+            artif_sign_tracker += 1
         # checks if the sign has reached the end of signs. If so, cycle back to the first sign.
         if artif_sign_tracker == artif_sign_number:
             artif_sign_tracker = 0

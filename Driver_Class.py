@@ -43,17 +43,19 @@ class Student_Queue:
                     #call speed randomizer from driver
                     self.add(current_driver)
 
-    def add(self, node:Node):
+    def add(self, node: Node):
         if not self.head:
             self.head = node
         else:
             current_node = self.head
-            while current_node.next:
+            while current_node.next != self.head:
                 current_node = current_node.next
             current_node.next = node
+            node.next = self.head
 
 
-
+# create queue of students
+# 
     
 class Driver:
     def __init__(self, ID, Attendance_average, speedmin, speedmax, varmin, varmax):
