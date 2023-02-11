@@ -2,6 +2,7 @@ import random
 
 seconds_in_week = 604800
 current_second = 0
+time_elapsed = 0
 day_list = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
 def current_day(current_second):

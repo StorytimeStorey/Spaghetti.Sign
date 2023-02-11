@@ -2,6 +2,7 @@
 # Last edited 01-12-2023 by Jackson Loughmiller
 # things to add to sign class
 # 
+import Timekeeping as TimeK
 class sign_node:
     def __init__(self, image):
         '''
@@ -15,7 +16,7 @@ class sign_node:
         '''
         return str(self.image)
 
-class cycle_sign:
+class sign:
  
     def __init__(self, viewing_time: int, run_time: int, is_running = False):
         '''
@@ -30,6 +31,7 @@ class cycle_sign:
         self.viewing_time = viewing_time
         self.run_time = run_time
         self.is_running = is_running
+        self.signs_seen_count = {}
 
     def __repr__(self):
         '''
@@ -64,7 +66,20 @@ class cycle_sign:
             new_node.next = self.head
             current.next = new_node
 
-    def cycle_image(self):
+    def seen_signs(self, image):
+        """
+        This function keeps track of how many times each sign has been seen
+        Inputs:
+            image - the image that was seen
+        If the sign has been seen, it'll increment the count
+        If it hasn't been seen, it'll add that sign to the dictionary and set the counter to 1
+        """
+        if image in self.signs_seen_count:
+            self.signs_seen_count[image] += 1
+        else:
+            self.signs_seen_count[image] = 1
+
+    def cycle_image(self, drivers):
         '''
         Cycles through the images, leaving each image as current_image for [viewing time] 
         '''
@@ -73,10 +88,23 @@ class cycle_sign:
         self.current_image = self.head
         # tracks number of weeks passed during the current runtime
         self.num_weeks = 0
+        driver_leave_time = 0
         # loop through linked list, pausing for the inputted viewing time on each node. 
         while self.is_running:
             for second in range (604801):
-                self.current_second = second
+                TimeK.current_second = second
+                # generate driver speed and calculate the time at which the driver can no longer see the sign, for every driver
+                for driver in drivers:
+                    # checks if the  current second matches any of the driver arrival times, if it does generates a drive speed
+                    if second in driver.arrival_time:
+                        driver_speed = driver.generate_drive_speed()
+                        # calculate the time the driver leaves
+                        driver_leave_time = second+driver_speed
+                    # add the current image to the drivers data if they can see it
+                    if second < driver_leave_time:
+                        print(f'{driver.ID} has seen image {self.current_image}')
+                        self.seen_signs(self.current_image.image)
+                        driver_leave_time = 0
                 # move to the next image every [viewing_time] increments
                 # print(self.current_image)
                 if second%self.viewing_time == 0:
@@ -84,19 +112,20 @@ class cycle_sign:
                     cycle_time = 0
                 else:
                     cycle_time += 1
+            TimeK.time_elapsed += 604800
             self.num_weeks += 1
             # stop cycling once desired run_time is reached
             if self.num_weeks == self.run_time:
                 self.is_running = False
 
 
-testing_sign = cycle_sign(5, 1, True)
+testing_sign = sign(5, 1, True)
 tracker = 0 
 for thing in range(20):
     tracker += 1
     bro = sign_node(tracker)
     testing_sign.append(bro)
-testing_sign.cycle_image()
+# testing_sign.cycle_image()
     # print(testing_sign.current_image)
 
 

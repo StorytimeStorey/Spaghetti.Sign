@@ -22,9 +22,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class main_window:
     def __init__(self, song_list, 
-                 slide_arrange_button_S_func: function, 
-                 slide_arrange_button_R_func: function, 
-                 run_sim: function):
+                 slide_arrange_button_S_func, 
+                 slide_arrange_button_R_func, 
+                 run_sim):
         '''
         Initial main window method
         Inputs:
@@ -373,8 +373,8 @@ testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
 # end testing
 
 songs_list = ["I'm a Lady.flac", "Blur_Song_2.wav", "Look at this graph.flac"]
-def run_gui():
-    tkinter_window = main_window(songs_list)
+def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func, run_sim):
+    tkinter_window = main_window(songs_list, slide_arrange_button_S_func, slide_arrange_button_R_func, run_sim)
     tkinter_window.ttk_notebook()
     tkinter_window.title_label()
     tkinter_window.vehicle_header()
@@ -385,7 +385,6 @@ def run_gui():
     tkinter_window.credit()
     tkinter_window.compute_button()
     tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
-    # tkinter_window.scroll_bar()
     tkinter_window.main_loop()
 
-run_gui()
+# run_gui()

@@ -53,10 +53,10 @@ class Student_Queue:
             self.head = node
         else:
             current_node = self.head
-            while current_node.next != self.head:
+            while current_node.next:
                 current_node = current_node.next
             current_node.next = node
-            node.next = self.head
+            # node.next = self.head
 
 
 # create queue of students
