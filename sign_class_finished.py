@@ -32,6 +32,7 @@ class sign:
         self.run_time = run_time
         self.is_running = is_running
         self.signs_seen_count = {}
+        self.driver_memory = {}
 
     def __repr__(self):
         '''
@@ -66,18 +67,27 @@ class sign:
             new_node.next = self.head
             current.next = new_node
 
-    def seen_signs(self, image):
+    def seen_signs(self, image, driver):
         """
         This function keeps track of how many times each sign has been seen
         Inputs:
             image - the image that was seen
+            driver - the current driver, that saw the image
         If the sign has been seen, it'll increment the count
         If it hasn't been seen, it'll add that sign to the dictionary and set the counter to 1
         """
+        # creates dict in format {image: times seen}
         if image in self.signs_seen_count:
             self.signs_seen_count[image] += 1
         else:
             self.signs_seen_count[image] = 1
+        # creates dict in format {driver: list of signs seen}
+        if driver.ID in self.driver_memory:
+            self.driver_memory[driver.ID].append(image)
+            print('appending new value to driver_memory')
+        else:
+            print('creating new key in driver_memory')
+            self.driver_memory[driver.ID] = [image]
 
     def cycle_image(self, drivers):
         '''
@@ -102,8 +112,7 @@ class sign:
                         driver_leave_time = second+driver_speed
                     # add the current image to the drivers data if they can see it
                     if second < driver_leave_time:
-                        print(f'{driver.ID} has seen image {self.current_image}')
-                        self.seen_signs(self.current_image.image)
+                        self.seen_signs(image=self.current_image.image, driver=driver)
                         driver_leave_time = 0
                 # move to the next image every [viewing_time] increments
                 # print(self.current_image)

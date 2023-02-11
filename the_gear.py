@@ -17,7 +17,15 @@ drivers = 0
 tracker = 0
 
 def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed):
-
+    '''
+    Inputs:
+        simulated_weeks - 
+        simulated_drivers_number - 
+        simulated_slide_numbers - 
+        simulated_slide_speed - 
+    Returns:
+        {image: times seen}, {driver: signs seen}
+    '''
     # System to create drivers.
     DriverC.amount_of_students = simulated_drivers_number
     studentsSim = DriverC.Student_Queue()
@@ -31,15 +39,17 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         the_sign.append(image)
     # this does the whole simulation essentially. Look at the sign class for more details
     the_sign.cycle_image(studentsSim.drivers)
-    return the_sign.signs_seen_count
+    return the_sign.signs_seen_count, the_sign.driver_memory
 
 DriverC.amount_of_students = simulated_drivers_number
 
 print(run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_numbers, simulated_slide_speed))
-def testing_function():
+def slide_arrange_button_R_function():
     pass
-# GUI.run_gui(slide_arrange_button_R_func=testing_function, 
-#             slide_arrange_button_S_func=testing_function, 
+def slide_arrange_button_S_function():
+    pass
+# GUI.run_gui(slide_arrange_button_R_func=slide_arrange_button_R_function, 
+#             slide_arrange_button_S_func=slide_arrange_button_S_function, 
 #             run_sim= lambda: run_simulation(simulated_weeks, 
 #                                             simulated_drivers_number, 
 #                                             simulated_slide_numbers, 

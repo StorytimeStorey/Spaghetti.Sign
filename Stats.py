@@ -4,8 +4,14 @@ class stats:
     # num signs seen vs days of attendance graph
     def format_sign_vs_attendance(self, data):
         '''
-        Takes the input data and formats it to work with the create_graph function in the GUI class
+        Takes the input data in format {image: number of times seen} and formats it to work 
+        with the create_graph function in the GUI class
+        makes it this format: 
+        {'x-axis label': [x, axis, categorical, variables], 'y-axis label': [bar value]}
         '''
+        return_dict = {}
+        for driver in data.keys():
+            
         pass
 
     # total signs seen vs day of the week graph (y-axis: #signs seen by all student, x-axis: day of the week)

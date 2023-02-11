@@ -98,7 +98,7 @@ class Driver:
         if message in self.data:
             self.data[message] += 1
         else:
-            self.data[message] = 1 
+            self.data[message] = 1
         
     def days_attended(self):
         """
