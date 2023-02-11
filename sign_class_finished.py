@@ -82,12 +82,12 @@ class sign:
         else:
             self.signs_seen_count[image] = 1
         # creates dict in format {driver: list of signs seen}
-        if driver.ID in self.driver_memory:
-            self.driver_memory[driver.ID].append(image)
-            print('appending new value to driver_memory')
+        if driver in self.driver_memory:
+            self.driver_memory[driver].append(image)
+            # print('appending new value to driver_memory')
         else:
-            print('creating new key in driver_memory')
-            self.driver_memory[driver.ID] = [image]
+            # print('creating new key in driver_memory')
+            self.driver_memory[driver] = [image]
 
     def cycle_image(self, drivers):
         '''
@@ -101,10 +101,12 @@ class sign:
         driver_leave_time = 0
         # loop through linked list, pausing for the inputted viewing time on each node. 
         while self.is_running:
+            print('in main while loop')
             for second in range (604801):
                 TimeK.current_second = second
                 # generate driver speed and calculate the time at which the driver can no longer see the sign, for every driver
                 for driver in drivers:
+                    print(f'checking driver {driver.ID}')
                     # checks if the  current second matches any of the driver arrival times, if it does generates a drive speed
                     if second in driver.arrival_time:
                         driver_speed = driver.generate_drive_speed()

@@ -16,15 +16,12 @@ import pygame
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
-
-
+import Timekeeping as TimeK
 
 class main_window:
     def __init__(self, song_list, 
                  slide_arrange_button_S_func, 
-                 slide_arrange_button_R_func, 
-                 run_sim):
+                 slide_arrange_button_R_func):
         '''
         Initial main window method
         Inputs:
@@ -39,7 +36,6 @@ class main_window:
         self.window = tk.Tk()
         self.slide_arrange_button_S_func = slide_arrange_button_S_func
         self.slide_arrange_button_R_func = slide_arrange_button_R_func
-        self.run_sim = run_sim
         self.window.title('Spaghetti Sign')
         self.window_width = 800
         self.window_height = 700
@@ -282,7 +278,15 @@ class main_window:
         '''
         Activates the simulation (not done yet)
         '''
-        self.computer_button = ttk.Button(self.page1, text='COMPUTE', width=10, command=self.run_sim)
+        self.computer_button = ttk.Button(self.page1, 
+                                          text='COMPUTE', 
+                                          width=10, 
+                                          command= lambda: [print('button pressed'), 
+                                                            self.set_values(), 
+                                                            TimeK.run_simulation(TimeK.simulated_weeks, 
+                                                                                 TimeK.simulated_drivers_number, 
+                                                                                 TimeK.simulated_slide_numbers, 
+                                                                                 TimeK.simulated_slide_speed)])
         self.computer_button.place(relx=0.5, rely=0.6, anchor='n')
     
     def place_graphs(self, graph_list):
@@ -356,6 +360,17 @@ class main_window:
         '''
         self.window.mainloop()
 
+    def set_values(self):
+        '''
+        Function to be executed when the compute button is pressed. sets all neccesarry values for the simulation.
+        '''
+        print('setting values')
+        TimeK.simulated_drivers_number = int(self.vehicle_number_entry.get())
+        print(f'num students is {TimeK.simulated_drivers_number}')
+        TimeK.simulated_slide_numbers = int(self.slide_number_entry.get())
+        print(f'num slides is {TimeK.simulated_slide_numbers}')
+        TimeK.simulated_slide_speed = int(self.slide_speed_entry.get())
+        print(f'slide speed is {TimeK.simulated_slide_speed} seconds')
 # start of testing code
 testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
          'Number of Signs Seen': [1, 2, 3, 4, 5]
@@ -373,8 +388,8 @@ testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
 # end testing
 
 songs_list = ["I'm a Lady.flac", "Blur_Song_2.wav", "Look at this graph.flac"]
-def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func, run_sim):
-    tkinter_window = main_window(songs_list, slide_arrange_button_S_func, slide_arrange_button_R_func, run_sim)
+def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func):
+    tkinter_window = main_window(songs_list, slide_arrange_button_S_func, slide_arrange_button_R_func)
     tkinter_window.ttk_notebook()
     tkinter_window.title_label()
     tkinter_window.vehicle_header()
