@@ -1,8 +1,5 @@
-# Class for the sign that students will be looking at
-# Last edited 01-12-2023 by Jackson Loughmiller
-# things to add to sign class
-# 
 import Timekeeping as TimeK
+
 class sign_node:
     def __init__(self, image):
         '''
@@ -84,9 +81,7 @@ class sign:
         # creates dict in format {driver: list of signs seen}
         if driver in self.driver_memory:
             self.driver_memory[driver].append(image)
-            # print('appending new value to driver_memory')
         else:
-            # print('creating new key in driver_memory')
             self.driver_memory[driver] = [image]
 
     def cycle_image(self, drivers):
@@ -101,12 +96,10 @@ class sign:
         driver_leave_time = 0
         # loop through linked list, pausing for the inputted viewing time on each node. 
         while self.is_running:
-            print('in main while loop')
             for second in range (604801):
                 TimeK.current_second = second
                 # generate driver speed and calculate the time at which the driver can no longer see the sign, for every driver
                 for driver in drivers:
-                    print(f'checking driver {driver.ID}')
                     # checks if the  current second matches any of the driver arrival times, if it does generates a drive speed
                     if second in driver.arrival_time:
                         driver_speed = driver.generate_drive_speed()
@@ -117,7 +110,6 @@ class sign:
                         self.seen_signs(image=self.current_image.image, driver=driver)
                         driver_leave_time = 0
                 # move to the next image every [viewing_time] increments
-                # print(self.current_image)
                 if second%self.viewing_time == 0:
                     self.current_image = self.current_image.next
                     cycle_time = 0

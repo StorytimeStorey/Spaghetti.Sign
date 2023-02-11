@@ -1,7 +1,5 @@
-import random
 import sign_class_finished as SC
 import Driver_Class as DriverC
-import Timekeeping as TimeK
 import GUI as GUI
 
 seconds_in_week = 604800

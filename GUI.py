@@ -2,14 +2,6 @@
 # Last edited 2-2-23 by Jackson & Maverick
 # The GUI Lagoon
 
-# Current Issues/To Dos:
-# Get system to check if any drivers are arriving at the current second.
-# Fix audio system/errors occurring from audio.
-
-# Make sure GUI it works with everything else.
-# Say hi to the wife and kids.
-
-
 import tkinter as tk
 from tkinter import ttk
 import pygame
@@ -364,14 +356,12 @@ class main_window:
         '''
         Function to be executed when the compute button is pressed. sets all neccesarry values for the simulation.
         '''
-        print('setting values')
         TimeK.simulated_drivers_number = int(self.vehicle_number_entry.get())
-        print(f'num students is {TimeK.simulated_drivers_number}')
         TimeK.simulated_slide_numbers = int(self.slide_number_entry.get())
-        print(f'num slides is {TimeK.simulated_slide_numbers}')
         TimeK.simulated_slide_speed = int(self.slide_speed_entry.get())
-        print(f'slide speed is {TimeK.simulated_slide_speed} seconds')
+
 # start of testing code
+# use as example for making the actual graphs
 testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
          'Number of Signs Seen': [1, 2, 3, 4, 5]
          }
@@ -387,7 +377,7 @@ testing_data4 = {'Days of Attendance': [1, 2, 3, 4, 5],
 testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
 # end testing
 
-songs_list = ["I'm a Lady.flac", "Blur_Song_2.wav", "Look at this graph.flac"]
+songs_list = ["Audio_Files/I'm a Lady.flac", "Audio_Files/Blur_Song_2.wav", "Audio_Files/Look at this graph.flac"]
 def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func):
     tkinter_window = main_window(songs_list, slide_arrange_button_S_func, slide_arrange_button_R_func)
     tkinter_window.ttk_notebook()
@@ -401,5 +391,3 @@ def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func):
     tkinter_window.compute_button()
     tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
     tkinter_window.main_loop()
-
-# run_gui()

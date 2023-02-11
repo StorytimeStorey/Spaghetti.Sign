@@ -1,3 +1,4 @@
+# statistics bois
 class stats:
 
     # formatting functions
@@ -12,7 +13,7 @@ class stats:
         return_dict = {}
         for driver in data.keys():
             
-        pass
+            pass
 
     # total signs seen vs day of the week graph (y-axis: #signs seen by all student, x-axis: day of the week)
     def format_sign_vs_week_day(self, data):
