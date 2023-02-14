@@ -1,4 +1,8 @@
 import Timekeeping as TimeK
+import random
+import json
+
+# cycle_type = json.load(open('cycle_type.json', 'r'))
 
 class sign_node:
     def __init__(self, image):
@@ -87,6 +91,9 @@ class sign:
     def cycle_image(self, drivers):
         '''
         Cycles through the images, leaving each image as current_image for [viewing time] 
+        Inputs:
+            drivers - list of all drivers
+            cycle_type - True/False statement, True means circular cycle, False means random cycle
         '''
         global cycle_time
         cycle_time = 0
@@ -111,8 +118,21 @@ class sign:
                         driver_leave_time = 0
                 # move to the next image every [viewing_time] increments
                 if second%self.viewing_time == 0:
-                    self.current_image = self.current_image.next
-                    cycle_time = 0
+                    with open('booleans.json') as file:
+                        booleans = json.load(file)
+                    if  booleans["cycle_type"] == True:
+                        # cycles the slides in the order they were created
+                        print('cycle')
+                        print(booleans["cycle_type"])
+                        self.current_image = self.current_image.next
+                        cycle_time = 0
+                    else: 
+                        # randomly cycles the slides
+                        print('random')
+                        print(booleans['cycle_type'])
+                        for i in range(random.randint(1, TimeK.simulated_slide_numbers)):
+                            self.current_image = self.current_image.next
+
                 else:
                     cycle_time += 1
             TimeK.time_elapsed += 604800

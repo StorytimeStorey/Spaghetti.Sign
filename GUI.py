@@ -243,7 +243,7 @@ class main_window:
                                                 width=10,
                                                 foreground='gray',
                                                 command=lambda: [main_window.button_selected(self, function=self.slide_arrange_button_R),
-                                                             self.slide_arrange_button_S_func()])
+                                                             self.slide_arrange_button_R_func()])
         self.slide_arrange_button_R.place(relx=0.474, 
                                           rely=0.47, 
                                           anchor='nw')
@@ -255,9 +255,11 @@ class main_window:
         if function is self.slide_arrange_button_S:
             self.slide_arrange_button_S.config(foreground='black')
             self.slide_arrange_button_R.config(foreground='gray')
+
         elif function is self.slide_arrange_button_R:
             self.slide_arrange_button_R.config(foreground='black')
             self.slide_arrange_button_S.config(foreground='gray')
+
 
     def credit(self):
         '''
