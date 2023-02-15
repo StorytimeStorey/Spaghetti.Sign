@@ -251,8 +251,11 @@ class sign:
                     if  booleans["cycle_type"] == True:
                         # cycles the slides in the order they were created
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         #print('cycle')
                         #print(booleans["cycle_type"])
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                         self.current_image = self.current_image.next
@@ -260,8 +263,11 @@ class sign:
                     else: 
                         # randomly cycles the slides
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         #print('random')
                         #print(booleans['cycle_type'])
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
                         for i in range(random.randint(1, TimeK.simulated_slide_numbers)):

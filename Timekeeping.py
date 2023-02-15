@@ -13,8 +13,13 @@ import json
 
 def slide_arrange_button_R_function():
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     #print('in r')
     with open('booleans.json') as file:
+=======
+    print('in r')
+    with open('JSON/booleans.json') as file:
+>>>>>>> Stashed changes
 =======
     print('in r')
     with open('JSON/booleans.json') as file:
@@ -27,8 +32,13 @@ def slide_arrange_button_R_function():
 
 def slide_arrange_button_S_function():
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     #print('in s')
     with open('booleans.json') as file:
+=======
+    print('in s')
+    with open('JSON/booleans.json') as file:
+>>>>>>> Stashed changes
 =======
     print('in s')
     with open('JSON/booleans.json') as file:
@@ -71,7 +81,12 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         the_sign.append(image)
     # this does the whole simulation essentially. Look at the sign class for more details
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     the_sign.cycle_image(studentsSim)
+=======
+    results = the_sign.cycle_image(studentsSim.drivers)
+    TimeK.the_graphs = results
+>>>>>>> Stashed changes
 =======
     results = the_sign.cycle_image(studentsSim.drivers)
     TimeK.the_graphs = results
