@@ -77,6 +77,7 @@ class Driver:
         self.speed["drive_speed"] = random.randint(speedmin, speedmax)
         self.speed["drive_speed_var"] = random.randint(varmin, varmax)
         self.data = {} # Where each students data of what signs it has seen will go
+        self.unique_signs = [] # list of unique signs the driver has seen
         self.arrival_time = [] # This is where the SPECIFIC SECONDS in the week the student will arrive will be stored
         self.arrival_time_generator()
         

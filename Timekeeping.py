@@ -12,20 +12,30 @@ import json
 # booleans = open('booleans.json', 'r')
 
 def slide_arrange_button_R_function():
+<<<<<<< Updated upstream
     #print('in r')
     with open('booleans.json') as file:
+=======
+    print('in r')
+    with open('JSON/booleans.json') as file:
+>>>>>>> Stashed changes
         booleans = json.load(file)
     booleans['cycle_type'] = False
-    with open('booleans.json', 'w') as file:
+    with open('JSON/booleans.json', 'w') as file:
         json.dump(booleans, file)
     file.close()
 
 def slide_arrange_button_S_function():
+<<<<<<< Updated upstream
     #print('in s')
     with open('booleans.json') as file:
+=======
+    print('in s')
+    with open('JSON/booleans.json') as file:
+>>>>>>> Stashed changes
         booleans = json.load(file)
     booleans['cycle_type'] = True
-    with open('booleans.json', 'w') as file:
+    with open('JSON/booleans.json', 'w') as file:
         json.dump(booleans, file)
     file.close()
 
@@ -60,10 +70,16 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         image = SC.sign_node(str(tracker))
         the_sign.append(image)
     # this does the whole simulation essentially. Look at the sign class for more details
+<<<<<<< Updated upstream
     the_sign.cycle_image(studentsSim)
+=======
+    results = the_sign.cycle_image(studentsSim.drivers)
+    TimeK.the_graphs = results
+>>>>>>> Stashed changes
     print(the_sign.signs_seen_count, the_sign.driver_memory)
-    return the_sign.signs_seen_count, the_sign.driver_memory
+    return results
 
+the_graphs = []
 simulated_weeks = 1
 simulated_drivers_number = 20
 simulated_driver_days = 3

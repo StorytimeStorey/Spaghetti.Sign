@@ -1,6 +1,7 @@
 import Timekeeping as TimeK
 import random
 import json
+from statistics import mean
 
 #cycle_type = json.load(open('cycle_type.json', 'r'))
 
@@ -32,8 +33,33 @@ class sign:
         self.viewing_time = viewing_time
         self.run_time = run_time
         self.is_running = is_running
+        # dict in format {image: times seen}
         self.signs_seen_count = {}
+        # creates dict in format {driver: list of signs seen}
         self.driver_memory = {}
+        # dict in format {days_attending: self.driver_memory}
+        self.attendance_tracker = {}
+        # lists for the number of unique signs each driver has seen
+        self.days_5 = []
+        self.days_4 = []
+        self.days_3 = []
+        self.days_2 = []
+        self.days_1 = []
+        # average unique signs seen for how many days of attendance
+        self.days_5_mean = 0
+        self.days_4_mean = 0
+        self.days_3_mean = 0
+        self.days_2_mean = 0
+        self.days_1_mean = 0
+        # percent signs seen for how many days of attendance
+        self.days_5_percent = 0
+        self.days_4_percent = 0
+        self.days_3_percent = 0
+        self.days_2_percent = 0
+        self.days_1_percent = 0
+        # dict in format: {'Days Attended': [1, 2, 3, 4, 5],'Percentage of Signs Seen': [percent values]}
+        self.percent_seen_graph_dict = {}
+
 
     def __repr__(self):
         '''
@@ -74,19 +100,82 @@ class sign:
         Inputs:
             image - the image that was seen
             driver - the current driver, that saw the image
-        If the sign has been seen, it'll increment the count
-        If it hasn't been seen, it'll add that sign to the dictionary and set the counter to 1
+
         """
-        # creates dict in format {image: times seen}
-        if image in self.signs_seen_count:
-            self.signs_seen_count[image] += 1
-        else:
-            self.signs_seen_count[image] = 1
-        # creates dict in format {driver: list of signs seen}
-        if driver in self.driver_memory:
-            self.driver_memory[driver].append(image)
-        else:
-            self.driver_memory[driver] = [image]
+        # populate unique_signs
+        if not image in driver.unique_signs:
+            driver.unique_signs.append(image)
+        # print(driver.unique_signs)
+
+        # make a graph that is percent of signs seen versus days attended
+        # dict must be in format: {'Days Attended': [1, 2, 3, 4, 5],'Percentage of Signs Seen': [percent values]}
+
+    def write_dicts(self):
+
+        # populates all the unique signs lists 
+        for driver in self.drivers:
+            print(f'driver {driver.ID} unique signs is {driver.unique_signs}')
+            driver_days_attending = sum(driver.days_attending)
+            if driver_days_attending == 5:
+                # print(f'driver {driver.ID} unique signs is {driver.unique_signs}')
+                total_unique_signs_seen = len(driver.unique_signs)
+                self.days_5.append(total_unique_signs_seen)
+
+            elif driver_days_attending == 4:
+                # print(f'driver {driver.ID} unique signs is {driver.unique_signs}')
+                total_unique_signs_seen = len(driver.unique_signs)
+                self.days_4.append(total_unique_signs_seen)
+
+            elif driver_days_attending == 3:
+                # print(f'driver {driver.ID} unique signs is {driver.unique_signs}')
+                total_unique_signs_seen = len(driver.unique_signs)
+                self.days_3.append(total_unique_signs_seen)
+
+            elif driver_days_attending == 2:
+                # print(f'driver {driver.ID} unique signs is {driver.unique_signs}')
+                total_unique_signs_seen = len(driver.unique_signs)
+                self.days_2.append(total_unique_signs_seen)
+
+            elif driver_days_attending == 1:
+                # print(f'driver {driver.ID} unique signs is {driver.unique_signs}')
+                total_unique_signs_seen = len(driver.unique_signs)
+                self.days_1.append(total_unique_signs_seen)
+        # find the average unique signs seen for each days_attending
+        if len(self.days_5) > 0:
+            self.days_5_mean = mean(self.days_5)
+        if len(self.days_4) > 0:
+            self.days_4_mean = mean(self.days_4)
+        if len(self.days_3) > 0:
+            self.days_3_mean = mean(self.days_3)
+        if len(self.days_2) > 0:
+            self.days_2_mean = mean(self.days_2)
+        if len(self.days_1) > 0:
+            self.days_1_mean = mean(self.days_1)
+
+        # find the percent unique signs seen for each days_attending
+        self.days_5_percent = 100*((self.days_5_mean)/(TimeK.simulated_slide_numbers))
+        self.days_4_percent = 100*((self.days_4_mean)/(TimeK.simulated_slide_numbers))
+        self.days_3_percent = 100*((self.days_3_mean)/(TimeK.simulated_slide_numbers))
+        self.days_2_percent = 100*((self.days_2_mean)/(TimeK.simulated_slide_numbers))
+        self.days_1_percent = 100*((self.days_1_mean)/(TimeK.simulated_slide_numbers))
+        percent_list = [self.days_5_percent, 
+                        self.days_4_percent, 
+                        self.days_3_percent, 
+                        self.days_2_percent, 
+                        self.days_1_percent]
+        # write dict in format: {'Days Attended': [1, 2, 3, 4, 5],'Percentage of Signs Seen': [percent values]}
+        self.percent_seen_graph_dict["Days Attended"] = [1, 2, 3, 4, 5]
+        self.percent_seen_graph_dict["Percentage of Signs Seen"] = percent_list
+        print(self.percent_seen_graph_dict)
+        with open('JSON/results.json', 'w') as file:
+            print('writing')
+            file.truncate()
+            file.write(str(self.percent_seen_graph_dict))
+            file.close()
+
+
+
+
 
     def cycle_image(self, drivers):
         '''
@@ -98,6 +187,7 @@ class sign:
         global cycle_time
         cycle_time = 0
         self.current_image = self.head
+        self.drivers = drivers
         # tracks number of weeks passed during the current runtime
         self.num_weeks = TimeK.simulated_weeks
         weeks_passed = 0
@@ -119,6 +209,7 @@ class sign:
                 #If drivers were removed, clear the list. If not, this does nothing
                 drivers_to_remove = []
                 TimeK.current_second = second
+<<<<<<< Updated upstream
                 #At the start declae the first student
                 if second == 0:
                     current_driver = drivers.head
@@ -139,26 +230,47 @@ class sign:
                         #driver_leave_time = 0
                         #append the driver to be removed, will happen at the beginning of the next iteration
                         drivers_to_remove.append(driver)
+=======
+                # generate driver speed and calculate the time at which the driver can no longer see the sign, for every driver
+                for driver in self.drivers:
+                    # checks if the  current second matches any of the driver arrival times, if it does generates a drive speed
+                    if second in driver.arrival_time:
+                        driver_speed = driver.generate_drive_speed()
+                        # calculate the time the driver leaves
+                        driver_leave_time = second+driver_speed
+                    # add the current image to the drivers data if they can see it
+                    if second < driver_leave_time:
+                        self.seen_signs(image=self.current_image.image, driver=driver)
+                    if second == driver_leave_time:
+                        driver_leave_time = 0
+>>>>>>> Stashed changes
                 # move to the next image every [viewing_time] increments
                 if second%self.viewing_time == 0:
-                    with open('booleans.json') as file:
+                    with open('JSON/booleans.json') as file:
                         booleans = json.load(file)
                     if  booleans["cycle_type"] == True:
                         # cycles the slides in the order they were created
+<<<<<<< Updated upstream
                         #print('cycle')
                         #print(booleans["cycle_type"])
+=======
+>>>>>>> Stashed changes
                         self.current_image = self.current_image.next
                         cycle_time = 0
                     else: 
                         # randomly cycles the slides
+<<<<<<< Updated upstream
                         #print('random')
                         #print(booleans['cycle_type'])
+=======
+>>>>>>> Stashed changes
                         for i in range(random.randint(1, TimeK.simulated_slide_numbers)):
                             self.current_image = self.current_image.next
 
                 else:
                     cycle_time += 1
             TimeK.time_elapsed += 604800
+<<<<<<< Updated upstream
 
 
 
@@ -176,6 +288,23 @@ if __name__ == "__main__":
 #     tracker += 1
 #     bro = sign_node(tracker)
 #     testing_sign.append(bro)
+=======
+            self.num_weeks += 1
+            # stop cycling once desired run_time is reached
+            # self.write_dicts()
+            if self.num_weeks == self.run_time:
+                results = self.write_dicts()
+                self.is_running = False
+        return results
+
+
+testing_sign = sign(5, 1, True)
+tracker = 0 
+for thing in range(20):
+    tracker += 1
+    bro = sign_node(tracker)
+    testing_sign.append(bro)
+>>>>>>> Stashed changes
 # testing_sign.cycle_image()
     # print(testing_sign.current_image)
 

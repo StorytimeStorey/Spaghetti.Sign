@@ -301,6 +301,17 @@ class main_window:
                                                                                  TimeK.simulated_slide_numbers, 
                                                                                  TimeK.simulated_slide_speed)])
         self.computer_button.place(relx=0.5, rely=0.6, anchor='n')
+
+    def graph_button(self):
+        '''
+        Activates the simulation (not done yet)
+        '''
+        self.graph_button = ttk.Button(self.page1, 
+                                          text='Generate Graphs', 
+                                          width=15, 
+                                          command= lambda: [self.create_graphs()])
+
+        self.graph_button.place(relx=0.5, rely=0.65, anchor='n')
     
     def place_graphs(self, graph_list):
         '''
@@ -385,18 +396,18 @@ class main_window:
 # start of testing code
 # use as example for making the actual graphs
 testing_data = {'Days of Attendance': [1, 2, 3, 4, 5],
-         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         'Number of Signs Seen': [1, 2, 30, 4, 5]
          }
 testing_data2 = {'Days of Attendance': [1, 2, 3, 4, 5],
-         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         'Number of Signs Seen': [1, 2, 30, 4, 5]
          }
 testing_data3 = {'Days of Attendance': [1, 2, 3, 4, 5],
-         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         'Number of Signs Seen': [1, 2, 30, 4, 5]
          }
 testing_data4 = {'Days of Attendance': [1, 2, 3, 4, 5],
-         'Number of Signs Seen': [1, 2, 3, 4, 5]
+         'Number of Signs Seen': [1, 2, 30, 4, 5]
          }
-testing_data_list = [testing_data, testing_data2, testing_data3, testing_data4]
+testing_data_list = []
 # end testing
 
 songs_list = ["Audio_Files/I'm a Lady.flac", "Audio_Files/Blur_Song_2.wav", "Audio_Files/Look at this graph.flac"]
@@ -412,5 +423,5 @@ def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func):
     tkinter_window.slide_arrangement()
     tkinter_window.credit()
     tkinter_window.compute_button()
-    tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
+    tkinter_window.graph_button()
     tkinter_window.main_loop()
