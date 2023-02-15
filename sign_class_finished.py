@@ -103,33 +103,52 @@ class sign:
         driver_leave_time = 0
         # loop through linked list, pausing for the inputted viewing time on each node. 
         while self.is_running:
+            #driveway dictionary for keeping track of currently queued drivers on the road
+            #Key is the Driver ID, Value is their current amount of seconds for this drive
+            driveway = {}
+            drivers_to_remove = [] #Python doesn't allow you to delete keys on iteration, so I had to come up with a workaround
             for second in range (604801):
+
+                #First thing in loop is to check if any drivers on the driveway need to be removed
+                for d in drivers_to_remove:
+                    del driveway[d]
+                #If drivers were removed, clear the list. If not, this does nothing
+                drivers_to_remove = []
                 TimeK.current_second = second
-                # generate driver speed and calculate the time at which the driver can no longer see the sign, for every driver
-                for driver in drivers:
-                    # checks if the  current second matches any of the driver arrival times, if it does generates a drive speed
-                    if second in driver.arrival_time:
-                        driver_speed = driver.generate_drive_speed()
-                        # calculate the time the driver leaves
-                        driver_leave_time = second+driver_speed
-                    # add the current image to the drivers data if they can see it
-                    if second < driver_leave_time:
-                        self.seen_signs(image=self.current_image.image, driver=driver)
-                        driver_leave_time = 0
+                #At the start declae the first student
+                if second == 0:
+                    current_driver = drivers.head
+                #while look to check if there's anyone in the same second that needs to be queued
+                while second in current_driver.driver.arrival_time:
+                    #Put the driver in the driveway, key is generated speed + seconds
+                    driveway[current_driver.driver.ID] = current_driver.driver.generate_drive_speed()+second
+                    #Checking for last driver, resets it to the head
+                    if current_driver.next != None:
+                        current_driver = current_driver.next
+                    else:
+                        current_driver = drivers.head
+                #This controls when the driver needs to be removed from the driveway
+                for driver in driveway:
+                    if second < driveway[driver]:
+                        self.seen_signs(image=self.current_image.image, driver=current_driver.driver)
+                    else:
+                        #driver_leave_time = 0
+                        #append the driver to be removed, will happen at the beginning of the next iteration
+                        drivers_to_remove.append(driver)
                 # move to the next image every [viewing_time] increments
                 if second%self.viewing_time == 0:
                     with open('booleans.json') as file:
                         booleans = json.load(file)
                     if  booleans["cycle_type"] == True:
                         # cycles the slides in the order they were created
-                        print('cycle')
-                        print(booleans["cycle_type"])
+                        #print('cycle')
+                        #print(booleans["cycle_type"])
                         self.current_image = self.current_image.next
                         cycle_time = 0
                     else: 
                         # randomly cycles the slides
-                        print('random')
-                        print(booleans['cycle_type'])
+                        #print('random')
+                        #print(booleans['cycle_type'])
                         for i in range(random.randint(1, TimeK.simulated_slide_numbers)):
                             self.current_image = self.current_image.next
 
@@ -142,12 +161,16 @@ class sign:
                 self.is_running = False
 
 
-testing_sign = sign(5, 1, True)
-tracker = 0 
-for thing in range(20):
-    tracker += 1
-    bro = sign_node(tracker)
-    testing_sign.append(bro)
+if __name__ == "__main__":
+    #Put testing in here
+    
+    pass
+# testing_sign = sign(5, 1, True)
+# tracker = 0 
+# for thing in range(20):
+#     tracker += 1
+#     bro = sign_node(tracker)
+#     testing_sign.append(bro)
 # testing_sign.cycle_image()
     # print(testing_sign.current_image)
 

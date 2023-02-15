@@ -12,7 +12,7 @@ import json
 # booleans = open('booleans.json', 'r')
 
 def slide_arrange_button_R_function():
-    print('in r')
+    #print('in r')
     with open('booleans.json') as file:
         booleans = json.load(file)
     booleans['cycle_type'] = False
@@ -21,7 +21,7 @@ def slide_arrange_button_R_function():
     file.close()
 
 def slide_arrange_button_S_function():
-    print('in s')
+    #print('in s')
     with open('booleans.json') as file:
         booleans = json.load(file)
     booleans['cycle_type'] = True
@@ -60,7 +60,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         image = SC.sign_node(str(tracker))
         the_sign.append(image)
     # this does the whole simulation essentially. Look at the sign class for more details
-    the_sign.cycle_image(studentsSim.drivers)
+    the_sign.cycle_image(studentsSim)
     print(the_sign.signs_seen_count, the_sign.driver_memory)
     return the_sign.signs_seen_count, the_sign.driver_memory
 
