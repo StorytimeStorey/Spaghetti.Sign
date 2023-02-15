@@ -140,30 +140,49 @@ class main_window:
         self.vehicle_number_entry.place(relx=0.36, 
                                 rely=0.17, 
                                 anchor='nw')
+        
 
-    def vehicle_attendance(self):
+    def weeks_number(self):
         '''
-        Creates and places the days of attendance slider and label
+        Creates and places the entry and label for number of students and cars
         '''
-        self.vehicle_attendance_label = ttk.Label(self.page1, 
-                                            text='Days of attendance:', 
-                                            font=("Arial", 
-                                            16))
-        self.vehicle_attendance_label.place(relx=0.055,
-                                    rely=0.22, 
-                                    anchor='nw')
+        self.weeks_number_label = ttk.Label(self.page1, 
+                                        text='Number of Weeks:', 
+                                        font=("Arial", 16))
+        self.weeks_number_label.place(relx=0.055, 
+                                rely=0.22, 
+                                anchor='nw')
 
-        self.vehicle_attendance_variable = tk.IntVar()
-        self.vehicle_attendance_slider = tk.Scale(self.page1, 
-                                            from_=1, 
-                                            to=5, 
-                                            orient='horizontal',
-                                            variable=self.vehicle_attendance_variable,
-                                            width=15,
-                                            sliderlength=20)
-        self.vehicle_attendance_slider.place(relx=0.36, 
-                                        rely=0.22, 
-                                        anchor='nw')
+        self.weeks_number_entry = ttk.Entry(self.page1, 
+                                        width=15, 
+                                        font=("Times New Roman", 
+                                        16))
+        self.weeks_number_entry.place(relx=0.36, 
+                                rely=0.22, 
+                                anchor='nw')
+    # def vehicle_attendance(self):
+    #     '''
+    #     Creates and places the days of attendance slider and label
+    #     '''
+    #     self.vehicle_attendance_label = ttk.Label(self.page1, 
+    #                                         text='Days of attendance:', 
+    #                                         font=("Arial", 
+    #                                         16))
+    #     self.vehicle_attendance_label.place(relx=0.055,
+    #                                 rely=0.22, 
+    #                                 anchor='nw')
+
+    #     self.vehicle_attendance_variable = tk.IntVar()
+    #     self.vehicle_attendance_slider = tk.Scale(self.page1, 
+    #                                         from_=1, 
+    #                                         to=5, 
+    #                                         orient='horizontal',
+    #                                         variable=self.vehicle_attendance_variable,
+    #                                         width=15,
+    #                                         sliderlength=20)
+    #     self.vehicle_attendance_slider.place(relx=0.36, 
+    #                                     rely=0.22, 
+    #                                     anchor='nw')
 
     def sign_header(self):
         '''
@@ -359,6 +378,7 @@ class main_window:
         Function to be executed when the compute button is pressed. sets all neccesarry values for the simulation.
         '''
         TimeK.simulated_drivers_number = int(self.vehicle_number_entry.get())
+        TimeK.simulated_weeks = int(self.weeks_number_entry.get())
         TimeK.simulated_slide_numbers = int(self.slide_number_entry.get())
         TimeK.simulated_slide_speed = int(self.slide_speed_entry.get())
 
@@ -386,7 +406,8 @@ def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func):
     tkinter_window.title_label()
     tkinter_window.vehicle_header()
     tkinter_window.vehicle_number()
-    tkinter_window.vehicle_attendance()
+    tkinter_window.weeks_number()
+    # tkinter_window.vehicle_attendance()
     tkinter_window.sign_header()
     tkinter_window.slide_arrangement()
     tkinter_window.credit()

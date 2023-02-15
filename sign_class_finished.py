@@ -2,7 +2,7 @@ import Timekeeping as TimeK
 import random
 import json
 
-# cycle_type = json.load(open('cycle_type.json', 'r'))
+#cycle_type = json.load(open('cycle_type.json', 'r'))
 
 class sign_node:
     def __init__(self, image):
@@ -99,12 +99,16 @@ class sign:
         cycle_time = 0
         self.current_image = self.head
         # tracks number of weeks passed during the current runtime
-        self.num_weeks = 0
+        self.num_weeks = TimeK.simulated_weeks
+        weeks_passed = 0
         driver_leave_time = 0
-        # loop through linked list, pausing for the inputted viewing time on each node. 
-        while self.is_running:
-            #driveway dictionary for keeping track of currently queued drivers on the road
-            #Key is the Driver ID, Value is their current amount of seconds for this drive
+        # loop through linked list, pausing for the inputted viewing time on each node.
+        for week in range(self.num_weeks):
+            print(TimeK.simulated_weeks)
+            print(self.run_time)
+            print(week)
+        #driveway dictionary for keeping track of currently queued drivers on the road
+        #Key is the Driver ID, Value is their current amounzt of seconds for this drive
             driveway = {}
             drivers_to_remove = [] #Python doesn't allow you to delete keys on iteration, so I had to come up with a workaround
             for second in range (604801):
@@ -155,10 +159,11 @@ class sign:
                 else:
                     cycle_time += 1
             TimeK.time_elapsed += 604800
-            self.num_weeks += 1
-            # stop cycling once desired run_time is reached
-            if self.num_weeks == self.run_time:
-                self.is_running = False
+
+
+
+
+
 
 
 if __name__ == "__main__":
