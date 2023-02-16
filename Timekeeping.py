@@ -47,7 +47,7 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
     Returns:
         {image: times seen}, {driver: signs seen}
     '''
-    print('in run_simulation')
+    # print('in run_simulation')
     # System to create drivers.
     DriverC.amount_of_students = simulated_drivers_number
     studentsSim = DriverC.Student_Queue()
@@ -61,9 +61,11 @@ def run_simulation(simulated_weeks, simulated_drivers_number, simulated_slide_nu
         the_sign.append(image)
     # this does the whole simulation essentially. Look at the sign class for more details
     the_sign.cycle_image(studentsSim)
-    print(the_sign.signs_seen_count, the_sign.driver_memory)
-    return the_sign.signs_seen_count, the_sign.driver_memory
+    # print(f'the sign.first_graph is {the_sign.first_graph}')
+    TimeK.first_data_to_graph.append(the_sign.first_graph)
+    return the_sign.first_graph
 
+first_data_to_graph = []
 simulated_weeks = 1
 simulated_drivers_number = 20
 simulated_driver_days = 3

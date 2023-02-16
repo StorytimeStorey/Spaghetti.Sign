@@ -78,6 +78,7 @@ class Driver:
         self.speed["drive_speed_var"] = random.randint(varmin, varmax)
         self.data = {} # Where each students data of what signs it has seen will go
         self.arrival_time = [] # This is where the SPECIFIC SECONDS in the week the student will arrive will be stored
+        self.unique_signs = []
         self.arrival_time_generator()
         
     def days_attended(self):
@@ -224,5 +225,5 @@ if __name__ == "__main__":
     students = Student_Queue()
     current_driver = students.head
     while current_driver != None:
-        print(current_driver.driver.arrival_time)
+        # print(current_driver.driver.arrival_time)
         current_driver = current_driver.next

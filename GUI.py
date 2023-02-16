@@ -29,10 +29,10 @@ class main_window:
         self.slide_arrange_button_S_func = slide_arrange_button_S_func
         self.slide_arrange_button_R_func = slide_arrange_button_R_func
         self.window.title('Spaghetti Sign')
-        self.window_width = 800
-        self.window_height = 700
+        self.window_width = 1200
+        self.window_height = 1100
         self.window.geometry(f'{self.window_width}x{self.window_height}')
-        self.window.resizable(width=False, height=False)
+        # self.window.resizable(width=False, height=False)
         # set a protocol for when the window is closed
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
         
@@ -294,12 +294,14 @@ class main_window:
         self.computer_button = ttk.Button(self.page1, 
                                           text='COMPUTE', 
                                           width=10, 
-                                          command= lambda: [print('button pressed'), 
-                                                            self.set_values(), 
+                                          command= lambda: [self.set_values(),
                                                             TimeK.run_simulation(TimeK.simulated_weeks, 
                                                                                  TimeK.simulated_drivers_number, 
                                                                                  TimeK.simulated_slide_numbers, 
-                                                                                 TimeK.simulated_slide_speed)])
+                                                                                 TimeK.simulated_slide_speed),
+                                                            self.create_graphs(TimeK.first_data_to_graph, 
+                                                                               f'Average Number Unique Signs Seen', 
+                                                                               self.page2)])
         self.computer_button.place(relx=0.5, rely=0.6, anchor='n')
     
     def place_graphs(self, graph_list):
@@ -312,7 +314,7 @@ class main_window:
             graph = FigureCanvasTkAgg()
             graph.get_tk_widget().grid(row=row, column=column)
             column += 1
-            if column == 2:
+            if column == 3:
                 column = 0
                 row += 1
     
@@ -323,13 +325,15 @@ class main_window:
         y_axis_label - label of the y-axis
         desired_page - the page to add the bar graph to
         chart_title - title of the bar graph
-        data_to_graph - dictionary in format {'x-axis label': [x, axis, categorical, variables], 
+        data_list - dictionary in format {'x-axis label': [x, axis, categorical, variables], 
                                                 'y-axis label': [bar value]}
         '''
+        # print('creating graphs hopefully')
         row = 0
         column = 0
         # loop to create and .grid bar graphs
         for data_to_graph in data_list:
+            # print(f'data to graph is {data_to_graph}')
             column += 1
             self.x_axis_label = list(data_to_graph.keys())[0]
             self.y_axis_label = list(data_to_graph.keys())[1]
@@ -354,7 +358,7 @@ class main_window:
 
             # set the title of the subplot
             ax1.set_title(chart_title)
-            if column == 2:
+            if column == 3:
                 column = 0
                 row += 1
         
@@ -412,5 +416,5 @@ def run_gui(slide_arrange_button_S_func, slide_arrange_button_R_func):
     tkinter_window.slide_arrangement()
     tkinter_window.credit()
     tkinter_window.compute_button()
-    tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
+    # tkinter_window.create_graphs(data_list=testing_data_list, chart_title='Testing', desired_page=tkinter_window.page2)
     tkinter_window.main_loop()

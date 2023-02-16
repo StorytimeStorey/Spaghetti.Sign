@@ -1,6 +1,7 @@
 import Timekeeping as TimeK
 import random
 import json
+from statistics import mean
 
 #cycle_type = json.load(open('cycle_type.json', 'r'))
 
@@ -34,6 +35,7 @@ class sign:
         self.is_running = is_running
         self.signs_seen_count = {}
         self.driver_memory = {}
+        self.first_graph = {}
 
     def __repr__(self):
         '''
@@ -77,6 +79,8 @@ class sign:
         If the sign has been seen, it'll increment the count
         If it hasn't been seen, it'll add that sign to the dictionary and set the counter to 1
         """
+        if not image in driver.unique_signs:
+            driver.unique_signs.append(image)
         # creates dict in format {image: times seen}
         if image in self.signs_seen_count:
             self.signs_seen_count[image] += 1
@@ -87,6 +91,55 @@ class sign:
             self.driver_memory[driver].append(image)
         else:
             self.driver_memory[driver] = [image]
+        # {'Days of Attendance': [1, 2, 3, 4, 5], 'Unique Signs Seen': [average # unique signs seen]]}
+        self.first_graph["Days of Attendance"] = [1, 2, 3, 4, 5] 
+        # intialize a list for each days of attendance unique signs seen
+        unique_signs_1 = []
+        unique_signs_2 = []
+        unique_signs_3 = []
+        unique_signs_4 = []
+        unique_signs_5 = []
+        # populate the previously initialized lists with values representing how many unique signs one driver saw
+        for driver in self.driver_memory:
+            unique_signs_seen = len(driver.unique_signs)
+            if sum(driver.days_attending) == 1:
+                unique_signs_1.append(unique_signs_seen)
+            elif sum(driver.days_attending) == 2:
+                unique_signs_2.append(unique_signs_seen)
+            elif sum(driver.days_attending) == 3:
+                unique_signs_3.append(unique_signs_seen)
+            elif sum(driver.days_attending) == 4:
+                unique_signs_4.append(unique_signs_seen)
+            elif sum(driver.days_attending) == 5:
+                unique_signs_5.append(unique_signs_seen)
+        if len(unique_signs_1) > 0:
+            average_unique_signs_1 = mean(unique_signs_1)
+        else: 
+            average_unique_signs_1 = 0
+        if len(unique_signs_2) > 0:
+            average_unique_signs_2 = mean(unique_signs_2)
+        else: 
+            average_unique_signs_2 = 0
+        if len(unique_signs_3) > 0:
+            average_unique_signs_3 = mean(unique_signs_3)
+        else: 
+            average_unique_signs_3 = 0
+        if len(unique_signs_4) > 0:
+            average_unique_signs_4 = mean(unique_signs_4)
+        else: 
+            average_unique_signs_4 = 0
+        if len(unique_signs_5) > 0:
+            average_unique_signs_5 = mean(unique_signs_5)
+        else: 
+            average_unique_signs_5 = 0
+        self.first_graph["Unique Signs Seen"] = [average_unique_signs_1, 
+                                                 average_unique_signs_2, 
+                                                 average_unique_signs_3, 
+                                                 average_unique_signs_4, 
+                                                 average_unique_signs_5]
+        
+        
+
 
     def cycle_image(self, drivers):
         '''
@@ -104,9 +157,9 @@ class sign:
         driver_leave_time = 0
         # loop through linked list, pausing for the inputted viewing time on each node.
         for week in range(self.num_weeks):
-            print(TimeK.simulated_weeks)
-            print(self.run_time)
-            print(week)
+            # print(TimeK.simulated_weeks)
+            # print(self.run_time)
+            # print(week)
         #driveway dictionary for keeping track of currently queued drivers on the road
         #Key is the Driver ID, Value is their current amounzt of seconds for this drive
             driveway = {}
