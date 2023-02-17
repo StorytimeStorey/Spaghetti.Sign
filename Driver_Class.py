@@ -1,23 +1,26 @@
-
-
+# Driver class 
 import random
 
 Day_List = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
-Attendance_average = 2.6
+Attendance_average = 2.6  # This should be a variable in the GUI. 
 
+# Dictate the fastest and slowest speed a student may "drive"
 speedmin = 10 
 speedmax = 20 
+
+# Variables for how much their speed may vary at any given day
 varmin = 1 
 varmax = 5
+
+# The number of students that will be called. Should be a in GUI.
 amount_of_students = 20
 
-
 class Node:
+    #I'm just a lil node with a node family
     def __init__(self, driver):
         self.driver = driver
         self.next = None
-
 
 class Student_Queue:
     '''
@@ -33,7 +36,6 @@ class Student_Queue:
         self.drivers = [Driver(f'Driver {i}', Attendance_average,speedmin, speedmax, varmin, varmax) for i in range(amount_of_students)]
         self.day_list = Day_List
         self.enqueue_students()
-
 
     def enqueue_students(self):
         for second in range(604801):
@@ -51,36 +53,33 @@ class Student_Queue:
             while current_node.next:
                 current_node = current_node.next
             current_node.next = node
+            # node.next = self.head
 
-
-
-    
 class Driver:
+    """
+    Important info to be called are:
+        .data is a dictionary for what signs have been seen and how many times
+        .arrival_time is a list of times the student will arrive in specific seconds
+        def signs_seen(self, message) is the function for increasing the data dictionary
+        .schedule is a dictionary of days:hours that the students arrive 
+        def generate_drive_speed(self) is the function that gives the student a somewhat random drive speed
+            To be called when the driver arrives
+        I think that's all the important stuff, honestly. 
+    
+    """
     def __init__(self, ID, Attendance_average, speedmin, speedmax, varmin, varmax):
-        self.ID = ID
-        self.attendance_average = Attendance_average
-        self.days_attending = self.days_attended()
-        self.hour_arrived = self.choose_hour()
+        self.ID = ID  # Pretty much just a name, means nothing
+        self.attendance_average = Attendance_average 
+        self.days_attending = self.days_attended() # What days the student is attending
+        self.hour_arrived = self.choose_hour()  # What hours the student will arrive
         self.days_attending_total = sum(self.days_attending)
-        self.speed = {}
+        self.speed = {} # TO be filled on call
         self.speed["drive_speed"] = random.randint(speedmin, speedmax)
         self.speed["drive_speed_var"] = random.randint(varmin, varmax)
-        self.data = {}
-        self.arrival_time = []
+        self.data = {} # Where each students data of what signs it has seen will go
+        self.arrival_time = [] # This is where the SPECIFIC SECONDS in the week the student will arrive will be stored
+        self.unique_signs = []
         self.arrival_time_generator()
-
-
-    def signs_seen(self, message):
-        """
-        This function keeps track of how many signs are seen
-        "message" represents each individual signs
-        If the student has seen the sign, it'll increment the count
-        If they haven't seen it, it'll add that sign to the dictionary and set the counter to 1
-        """
-        if message in self.data:
-            self.data[message] += 1
-        else:
-            self.data[message] = 1 
         
     def days_attended(self):
         """
@@ -169,7 +168,6 @@ class Driver:
 
         multiple_days_schedule(self)
 
-
     def choose_hour(self):
         """
         This function returns the hour of arrival based on a probability distribution.
@@ -195,15 +193,13 @@ class Driver:
             return None
 
     def hour_second_randomizer(self, day_of_week, hour_of_day):
-        days_of_week = {
-            "Sunday": 0,
-            "Monday": 86400,
-            "Tuesday": 172800,
-            "Wednesday": 259200,
-            "Thursday": 345600,
-            "Friday": 432000,
-            "Saturday": 518400
-        }
+        days_of_week = {"Sunday": 0,
+                        "Monday": 86400,
+                        "Tuesday": 172800,
+                        "Wednesday": 259200,
+                        "Thursday": 345600,
+                        "Friday": 432000,
+                        "Saturday": 518400}
 
         #Randomizes the specific second that the student will arrive.
         seconds_passed = days_of_week[day_of_week] + int(hour_of_day) * 60 * 60
@@ -216,8 +212,6 @@ class Driver:
         arrival = [self.hour_second_randomizer(day, self.schedule[day]) for day in self.schedule.keys()]
         self.arrival_time = arrival
 
-
-
     def generate_drive_speed(self):
         '''
         Is to be called when enqueued in the linked list
@@ -227,11 +221,9 @@ class Driver:
         todays_speed = self.speed["drive_speed"] + random.randint(-self.speed["drive_speed_var"], self.speed["drive_speed_var"])
         return todays_speed
 
-
-students = Student_Queue()
-
 if __name__ == "__main__":
+    students = Student_Queue()
     current_driver = students.head
     while current_driver != None:
-        print(current_driver.driver.arrival_time)
+        # print(current_driver.driver.arrival_time)
         current_driver = current_driver.next
